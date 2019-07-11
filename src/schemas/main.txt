@@ -1,0 +1,35 @@
+type Query {
+  trash(name: String): Trash
+  trashList: [Trash!]!
+}
+
+type Trash {
+  type(type: TrashType): String
+  name: String
+  extraInfo: TrashInfo
+  about: HTMLType
+}
+
+type TrashInfo {
+  degration: DegrateInfo
+}
+
+type HTMLType {
+  src: String
+  js: [String!]!
+  css: [String!]!
+}
+
+type TrashType {
+  name: String
+}
+
+type DegrateInfo {
+  degrateTime: Time
+  degrateBy: [String!]!
+}
+
+type Time {
+  second: String
+  minute: String
+}

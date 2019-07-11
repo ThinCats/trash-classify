@@ -1,0 +1,37 @@
+type Query {
+  trash(name: String): Trash
+  trashList: [Trash!]!
+  
+}
+
+type Trash {
+  type(type: TrashType): String @examples(values: ["recy", "non-recy"])
+  name: String @fake(type: productName)
+  extraInfo: TrashInfo
+  about: HTMLType
+}
+
+type TrashInfo {
+  degration: DegrateInfo
+}
+
+type HTMLType {
+  src: String @examples(values: ["<br/>", "<h1></h1>"])
+  js: [String!]!
+  css: [String!]!
+}
+
+enum TrashType {
+	RECYCABLE,
+  
+}
+
+type DegrateInfo {
+  degrateTime: Time
+  degrateBy: [String!]!
+}
+
+type Time {
+  second: String @fake(type: futureDate)
+  minute: String @fake(type: futureDate)
+}
