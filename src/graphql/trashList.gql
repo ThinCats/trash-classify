@@ -1,0 +1,13 @@
+query list {
+  trashList {
+    name
+    type
+    extraInfo {
+      degration {
+        degrateTime {
+          second
+        }
+      }
+    }
+  }
+}

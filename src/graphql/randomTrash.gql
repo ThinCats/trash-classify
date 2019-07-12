@@ -1,0 +1,13 @@
+query trash {
+  randomTrash {
+    name
+    type
+    extraInfo {
+      degration {
+        degrateTime {
+          second
+        }
+      }
+    }
+  }
+}

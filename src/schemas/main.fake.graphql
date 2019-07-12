@@ -1,7 +1,7 @@
 type Query {
   trash(name: String): Trash
   trashList: [Trash!]!
-  
+  randomTrash: Trash
 }
 
 type Trash {
