@@ -1,48 +1,43 @@
+scalar Upload
 type Query {
-  trash(name: String!): Trash
-  trashList: [Trash!]!
-  """
-   Return the trash name according to photo id
-  """
-  trashName(id: ID!): String
+  trash(name: String!, trashId: ID = null): Trash
+  trashList(trashIdList: [ID!]!): [Trash!]!
+  # randomTrash: Trash
 }
 
 type Trash {
-  type(type: TrashType): String
-  name: String!
-  extraInfo: TrashInfo
-  about: HTMLType
+  type: TrashType
+  name: String 
+  id: ID
+  extraInfo: TrashExtraInfo
 }
 
-type TrashInfo {
-  degration: DegrateInfo!
+type TrashExtraInfo {
+  degration: DegrateInfo
 }
 
 type HTMLType {
-  src: String!
+  src: String 
   js: [String!]!
   css: [String!]!
 }
 
 type TrashType {
-  name: String!
+	name: String  
 }
 
 type DegrateInfo {
-  degrateTime: Time!
+  # time is second
+  degrateTime: Int
   degrateBy: [String!]!
 }
 
-type Time {
-  second: String
-  minute: String
-}
-
-type Image {
-  filename: String
-  id: ID!
-}
-
 type Mutation {
-  uploadImage(image: Upload!): Image
+  uploadTrashImage(image: Upload!): UploadTrashImageResponse
+}
+
+type UploadTrashImageResponse {
+  trashIdList: [ID!]!
+  taggedImage: String 
+  originalImage: String 
 }

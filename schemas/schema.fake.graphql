@@ -1,17 +1,18 @@
+scalar Upload
 type Query {
-  trash(name: String): Trash
-  trashList: [Trash!]!
-  randomTrash: Trash
+  trash(name: String!, trashId: ID = null): Trash
+  trashList(trashIdList: [ID!]!): [Trash!]!
+  # randomTrash: Trash
 }
 
 type Trash {
-  type(type: TrashType): String @examples(values: ["recy", "non-recy"])
+  type: TrashType
   name: String @fake(type: productName)
-  extraInfo: TrashInfo
-  about: HTMLType
+  id: ID
+  extraInfo: TrashExtraInfo
 }
 
-type TrashInfo {
+type TrashExtraInfo {
   degration: DegrateInfo
 }
 
@@ -21,17 +22,22 @@ type HTMLType {
   css: [String!]!
 }
 
-enum TrashType {
-	RECYCABLE,
-  
+type TrashType {
+	name: String  @examples(values: ["recy", "non-recy"])
 }
 
 type DegrateInfo {
-  degrateTime: Time
+  # time is second
+  degrateTime: Int
   degrateBy: [String!]!
 }
 
-type Time {
-  second: String @fake(type: futureDate)
-  minute: String @fake(type: futureDate)
+type Mutation {
+  uploadTrashImage(image: Upload!): UploadTrashImageResponse
+}
+
+type UploadTrashImageResponse {
+  trashIdList: [ID!]!
+  taggedImage: String @fake(type: imageUrl, options: {imageCategory: food})
+  originalImage: String @fake(type: imageUrl, options: {imageCategory: food})
 }
