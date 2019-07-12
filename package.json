@@ -9,6 +9,7 @@
     "apollo": "vue-cli-service apollo:dev --generate-schema",
     "apollo:schema:generate": "vue-cli-service apollo:schema:generate",
     "apollo:schema:publish": "vue-cli-service apollo:schema:publish",
+    "apollo:codegen:generate": "apollo codegen:generate --excludes=node_modules/* --target typescript --outputFlat src/types",
     "apollo:start": "vue-cli-service apollo:start",
     "fake": "graphql-faker -o schemas/schema.fake.graphql",
     "fake:convert": "node utils/fake_convert.js ./schemas",
