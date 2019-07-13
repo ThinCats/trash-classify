@@ -1,12 +1,12 @@
-query list {
-  trashList {
+query List {
+  trashList(trashIdList: ["1"]) {
     name
-    type
+    type {
+      name
+    }
     extraInfo {
       degration {
-        degrateTime {
-          second
-        }
+        degrateTime
       }
     }
   }

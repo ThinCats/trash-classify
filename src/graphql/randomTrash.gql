@@ -1,12 +1,12 @@
-query trash {
-  randomTrash {
+query Trash {
+  randomTrash: trash(name: "") {
     name
-    type
+    type {
+      name
+    }
     extraInfo {
       degration {
-        degrateTime {
-          second
-        }
+        degrateTime
       }
     }
   }

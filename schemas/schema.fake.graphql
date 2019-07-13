@@ -1,43 +1,45 @@
 scalar Upload
+schema {
+  query: Query
+}
 type Query {
-  trash(name: String!, trashId: ID = null): Trash
+  trash(name: String!, trashId: ID = null): Trash!
   trashList(trashIdList: [ID!]!): [Trash!]!
-  # randomTrash: Trash
 }
 
 type Trash {
-  type: TrashType
-  name: String @fake(type: productName)
-  id: ID
-  extraInfo: TrashExtraInfo
+  type: TrashType!
+  name: String! @fake(type: productName)
+  id: ID!
+  extraInfo: TrashExtraInfo!
 }
 
 type TrashExtraInfo {
-  degration: DegrateInfo
+  degration: DegrateInfo!
 }
 
 type HTMLType {
-  src: String @examples(values: ["<br/>", "<h1></h1>"])
+  src: String! @examples(values: ["<br/>", "<h1></h1>"])
   js: [String!]!
   css: [String!]!
 }
 
 type TrashType {
-	name: String  @examples(values: ["recy", "non-recy"])
+  name: String! @examples(values: ["recy", "non-recy"])
 }
 
 type DegrateInfo {
   # time is second
-  degrateTime: Int
+  degrateTime: Int!
   degrateBy: [String!]!
 }
 
 type Mutation {
-  uploadTrashImage(image: Upload!): UploadTrashImageResponse
+  uploadTrashImage(image: Upload!): UploadTrashImageResponse!
 }
 
 type UploadTrashImageResponse {
   trashIdList: [ID!]!
-  taggedImage: String @fake(type: imageUrl, options: {imageCategory: food})
-  originalImage: String @fake(type: imageUrl, options: {imageCategory: food})
+  taggedImage: String! @fake(type: imageUrl, options: { imageCategory: food })
+  originalImage: String! @fake(type: imageUrl, options: { imageCategory: food })
 }

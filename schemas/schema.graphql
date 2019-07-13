@@ -1,43 +1,45 @@
 scalar Upload
+schema {
+  query: Query
+}
 type Query {
-  trash(name: String!, trashId: ID = null): Trash
+  trash(name: String!, trashId: ID = null): Trash!
   trashList(trashIdList: [ID!]!): [Trash!]!
-  # randomTrash: Trash
 }
 
 type Trash {
-  type: TrashType
-  name: String 
-  id: ID
-  extraInfo: TrashExtraInfo
+  type: TrashType!
+  name: String! 
+  id: ID!
+  extraInfo: TrashExtraInfo!
 }
 
 type TrashExtraInfo {
-  degration: DegrateInfo
+  degration: DegrateInfo!
 }
 
 type HTMLType {
-  src: String 
+  src: String! 
   js: [String!]!
   css: [String!]!
 }
 
 type TrashType {
-	name: String  
+  name: String! 
 }
 
 type DegrateInfo {
   # time is second
-  degrateTime: Int
+  degrateTime: Int!
   degrateBy: [String!]!
 }
 
 type Mutation {
-  uploadTrashImage(image: Upload!): UploadTrashImageResponse
+  uploadTrashImage(image: Upload!): UploadTrashImageResponse!
 }
 
 type UploadTrashImageResponse {
   trashIdList: [ID!]!
-  taggedImage: String 
-  originalImage: String 
+  taggedImage: String! 
+  originalImage: String! 
 }
