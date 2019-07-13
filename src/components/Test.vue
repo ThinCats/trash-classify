@@ -8,10 +8,12 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import DetectUpload from '@/components/DetectUpload.vue'
 import Detect from '@/components/Detect.vue'
+import NavBar from '@/components/NavBar.vue'
 
 @Component({
   components: {
-    Detect
+    Detect,
+    NavBar
   }
 })
 export default class Test extends Vue {

@@ -5,11 +5,16 @@
       <h2>Upload your trash image</h2>
     </div>
     <el-card>
-      <el-row :gutter="20" type="flex" align="middle" justify="space-between">
-        <el-col :lg="12" :md="24" :xs="24">
+      <el-row :gutter="20" type="flex" justify="space-between">
+        <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
           <detect-upload></detect-upload>
         </el-col>
-        <el-col :lg="12" :md="24" :xs="24"> <detect-info></detect-info></el-col>
+        <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
+          <detect-tagged-image></detect-tagged-image
+        ></el-col>
+      </el-row>
+      <el-row>
+        <el-col> <detect-info></detect-info></el-col>
       </el-row>
     </el-card>
   </div>
@@ -19,11 +24,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import DetectUpload from '@/components/DetectUpload.vue'
 import DetectInfo from '@/components/DetectInfo.vue'
+import DetectTaggedImage from '@/components/DetectTaggedImage.vue'
 
 @Component({
   components: {
     DetectUpload,
-    DetectInfo
+    DetectInfo,
+    DetectTaggedImage
   }
 })
 export default class Detect extends Vue {}
@@ -32,13 +39,8 @@ export default class Detect extends Vue {}
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .trash-detect {
-  width: 90vw;
+  width: 60vw;
   margin: 0 auto;
-
-  .el-col {
-    display: flex;
-    justify-content: center;
-  }
 }
 
 .title {

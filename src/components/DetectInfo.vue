@@ -1,12 +1,12 @@
 <template>
   <div class="detect-info">
     <ApolloQuery
-      :query="require('../graphql/randomTrash.gql')"
+      :query="require('../graphql/trashList.gql')"
       v-slot="{ result: { loading, error, data } }"
     >
       <div v-if="error" class="error apollo"></div>
       <div v-else-if="data" v-loading="loading" class="result apollo">
-        <el-table :data="[data.randomTrash]" style="width: 100%">
+        <!-- el-table :data="[data.randomTrash]" style="width: 100%">
           <el-table-column prop="name" label="Trash" :width="180">
           </el-table-column>
           <el-table-column prop="type" label="Type" :width="120">
@@ -25,21 +25,28 @@
             degrated in
             <br />
             <span class="tips-time">
-              {{ data.randomTrash.extraInfo.degration.degrateTime.second }}
+              {{ data.randomTrash.extraInfo.degration.degrateTime }} seconds
             </span>
             <i class="el-icon-s-flag"></i>
           </div>
-        </el-card>
+        </el-card -->
+        <el-divider></el-divider>
+        <div v-for="trash in data.trashList" :key="trash.id">
+          <detect-info-item :trash="trash"></detect-info-item>
+        </div>
       </div>
+
       <div v-else class="no-result apollo">no result</div>
     </ApolloQuery>
     <detect-rate></detect-rate>
+    <detect-info-item></detect-info-item>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import DetectRate from '@/components/DetectRate.vue'
+import DetectInfoItem from '@/components/DetectInfoItem.vue'
 
 interface TrashType {
   date: string
@@ -51,7 +58,8 @@ const today = new Date().toLocaleDateString()
 
 @Component({
   components: {
-    DetectRate
+    DetectRate,
+    DetectInfoItem
   }
 })
 export default class TrashDetectInfo extends Vue {
@@ -74,7 +82,7 @@ export default class TrashDetectInfo extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .detect-info {
-  margin: auto;
+  // margin: auto;
 }
 
 .trash-info-tips {
