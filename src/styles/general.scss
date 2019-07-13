@@ -1,0 +1,16 @@
+$logo-primary-color: #008080;
+
+.flex-col-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-vertical-align {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text-align-center {
+  text-align: center;
+}

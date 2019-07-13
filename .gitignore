@@ -20,4 +20,5 @@ yarn-error.log*
 *.sln
 *.sw?
 graphql.schema.json
-src/types
+src/types/
+live/

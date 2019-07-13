@@ -12,7 +12,7 @@ module.exports = {
         .use('sass-resoureces-loader')
         .loader('sass-resources-loader')
         .options({
-          // resources: [path.resolve(__dirname, './src/styles/general.scss')]
+          resources: [path.resolve(__dirname, './src/assets/variables.scss')]
         })
     }
     ofs.forEach(type => {
