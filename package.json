@@ -12,13 +12,16 @@
     "apollo:codegen:generate": "apollo codegen:generate --excludes=node_modules/* --target typescript --outputFlat src/types",
     "apollo:start": "vue-cli-service apollo:start",
     "fake": "graphql-faker -o schemas/schema.fake.graphql",
-    "fake:convert": "node utils/fake_convert.js ./schemas",
+    "fake:convert": "node utils/fake_convert.js ./schemas && yarn codegen",
     "postfake": "yarn fake:convert",
     "preapollo": "yarn fake:convert",
     "preserve": "yarn fake:convert",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@graphql-codegen/cli": "^1.4.0",
+    "@graphql-codegen/typescript-operations": "^1.4.0",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-upload-client": "^11.0.0",
     "core-js": "^2.6.5",
@@ -35,6 +38,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@graphql-codegen/typescript": "1.4.0",
     "@types/chai": "^4.1.0",
     "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "^3.9.0",

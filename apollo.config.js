@@ -1,7 +1,7 @@
 module.exports = {
   client: {
     // service: {
-    //   // localSchemaFile: './src/schemas/main.graphql'
+    //   localSchemaFile: './schemas/schema.graphql'
     // },
     service: {
       name: 'graphql-faker',
@@ -9,6 +9,6 @@ module.exports = {
       // optional disable SSL validation check
       skipSSLValidation: true
     },
-    includes: ['src/**/*.{js,jsx,ts,tsx,vue,gql}']
+    includes: ['src/**/*.{js,jsx,ts,tsx,vue,gql,graphql}']
   }
 }
