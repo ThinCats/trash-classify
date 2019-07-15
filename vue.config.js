@@ -29,5 +29,6 @@ module.exports = {
         data: `@import "~@/styles/general.scss";`
       }
     }
-  }
+  },
+  transpileDependencies: ['vue-echarts', 'resize-detector']
 }

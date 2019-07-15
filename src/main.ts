@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins/element.js'
+import './plugins/echarts.js'
 //@ts-ignore
 import { createProvider, VueApollo } from './vue-apollo'
 

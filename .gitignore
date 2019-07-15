@@ -22,3 +22,4 @@ yarn-error.log*
 graphql.schema.json
 src/types/
 live/
+src/components/TestEcharts.vue
