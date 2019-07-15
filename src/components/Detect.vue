@@ -7,14 +7,16 @@
     <el-card>
       <el-row :gutter="20" type="flex" justify="space-between">
         <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
-          <detect-upload></detect-upload>
+          <div class="image-compare">
+            <detect-upload></detect-upload>
+            <el-divider></el-divider>
+            <detect-demo-select></detect-demo-select>
+          </div>
         </el-col>
         <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
-          <detect-tagged-image></detect-tagged-image
-        ></el-col>
-      </el-row>
-      <el-row>
-        <el-col> <detect-info></detect-info></el-col>
+          <detect-info v-if="isUploaded"></detect-info>
+          <article-daily v-else></article-daily>
+        </el-col>
       </el-row>
     </el-card>
   </div>
@@ -24,22 +26,26 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import DetectUpload from '@/components/DetectUpload.vue'
 import DetectInfo from '@/components/DetectInfo.vue'
-import DetectTaggedImage from '@/components/DetectTaggedImage.vue'
+import DetectDemoSelect from '@/components/DetectDemoSelect.vue'
+import ArticleDaily from '@/components/ArticleDaily.vue'
 
 @Component({
   components: {
     DetectUpload,
     DetectInfo,
-    DetectTaggedImage
+    DetectDemoSelect,
+    ArticleDaily
   }
 })
-export default class Detect extends Vue {}
+export default class Detect extends Vue {
+  private isUploaded: boolean = false
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .trash-detect {
-  width: 60vw;
+  width: 80vw;
   margin: 0 auto;
 }
 

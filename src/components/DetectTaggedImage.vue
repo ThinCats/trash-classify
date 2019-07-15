@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="tagged-card-head"></div>
+    <!-- <div class="tagged-card-head"></div> -->
     <el-card>
       <el-image :src="imageSrc" :style="{ width: imageWidth }">
         <div slot="placeholder" class="image-slot">

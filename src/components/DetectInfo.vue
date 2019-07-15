@@ -1,5 +1,6 @@
 <template>
   <div class="detect-info">
+    <div class="tagged-card-head"></div>
     <ApolloQuery
       :query="require('../graphql/trashList.gql')"
       v-slot="{ result: { loading, error, data } }"
@@ -94,5 +95,17 @@ export default class TrashDetectInfo extends Vue {
   .tips-trash-name {
     color: red;
   }
+}
+
+.tagged-card-head {
+  position: relative;
+  box-sizing: border-box;
+  width: 360px;
+  height: 180px;
+  overflow: hidden;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  text-align: center;
+  background-color: #fff;
 }
 </style>

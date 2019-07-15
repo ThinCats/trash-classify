@@ -13,13 +13,15 @@
       active-text-color="black"
       @select="handleSelect"
     >
-      <el-menu-item class="page-link" :index="1">
-        <router-link to="/">Home</router-link>
+      <el-menu-item class="page-link" index="1">
+        <router-link to="/">
+          Home
+        </router-link>
       </el-menu-item>
-      <el-menu-item class="page-link" :index="2">
+      <el-menu-item class="page-link" index="2">
         <router-link to="/about">About</router-link>
       </el-menu-item>
-      <el-menu-item class="page-link" :index="3">
+      <el-menu-item class="page-link" index="3">
         <router-link to="/test">Test</router-link>
       </el-menu-item>
     </el-menu>
@@ -36,7 +38,7 @@ import SideMenu from '@/components/SideMenu.vue'
   }
 })
 export default class NavBar extends Vue {
-  @Prop({ default: 1 }) private readonly activeIndex!: number
+  @Prop({ default: '3' }) private readonly activeIndex!: string
 
   private logoSrc: string = '../assets/logo.png'
 
@@ -54,7 +56,8 @@ $page-padding: 6%;
 .nav-bar {
   display: flex;
   justify-content: space-between;
-  padding: 0 $page-padding;
+  width: 88vw;
+  margin: 0 auto;
   .nav-head {
     display: flex;
     align-items: center;
@@ -72,17 +75,23 @@ $page-padding: 6%;
 .nav-menu {
   margin-right: 2rem;
   .page-link {
+    margin-right: 0.1rem;
+    padding: 0;
     border-bottom: 2px solid transparent;
 
-    &:hover {
-      color: $text-actived-color;
-      border-bottom-color: $text-actived-color;
-    }
     & > a {
+      display: block;
+      height: 100%;
+      padding: 0 20px;
       text-decoration: none;
       font-size: 1.0625rem;
       font-weight: 700;
       color: $text-primary-color;
+      border-bottom: 2px solid transparent;
+      &:hover {
+        color: $text-actived-color;
+        border-bottom-color: $text-actived-color;
+      }
     }
 
     &.is-active > a {
