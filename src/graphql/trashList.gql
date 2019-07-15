@@ -1,5 +1,5 @@
 query List {
-  trashList(trashIdList: ["1"]) {
+  trashList(trashNameList: ["123"]) {
     name
     type {
       name

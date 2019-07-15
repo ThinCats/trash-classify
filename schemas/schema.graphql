@@ -3,8 +3,8 @@ schema {
   query: Query
 }
 type Query {
-  trash(name: String!, trashId: ID = null): Trash!
-  trashList(trashIdList: [ID!]!): [Trash!]!
+  trash(name: String!): Trash!
+  trashList(trashNameList: [String!]!): [Trash!]!
 }
 
 type Trash {
@@ -34,12 +34,24 @@ type DegrateInfo {
   degrateBy: [String!]!
 }
 
-type Mutation {
-  uploadTrashImage(image: Upload!): UploadTrashImageResponse!
+type ImagePosition {
+  width: Float
+  height: Float
+  top: Float
+  left: Float
 }
 
-type UploadTrashImageResponse {
-  trashIdList: [ID!]!
-  taggedImage: String! 
-  originalImage: String! 
+type Mutation {
+  uploadImage(image: Upload!): UploadImageResponse!
+}
+
+type TaggedImageResult {
+  keyword: String
+  score: String
+  root: String
+}
+
+type UploadImageResponse {
+  taggedImageResult: [TaggedImageResult!]!
+  taggedImagePosition: ImagePosition!
 }
