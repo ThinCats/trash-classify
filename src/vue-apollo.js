@@ -5,6 +5,9 @@ import {
   restartWebsockets
 } from 'vue-cli-plugin-apollo/graphql-client'
 
+import { createUploadLink } from 'apollo-upload-client'
+import { ApolloLink } from 'apollo-link'
+
 // Install the vue plugin
 Vue.use(VueApollo)
 
@@ -13,7 +16,7 @@ const AUTH_TOKEN = 'apollo-token'
 
 // Http endpoint
 const httpEndpoint =
-  process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:9002/graphql'
+  process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql'
 
 // Config
 const defaultOptions = {
@@ -31,12 +34,17 @@ const defaultOptions = {
   // You need to pass a `wsEndpoint` for this to work
   websocketsOnly: false,
   // Is being rendered on the server?
-  ssr: false
+  ssr: false,
 
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  // link: myLink
+  link: ApolloLink.from([
+    // ...
+    createUploadLink({
+      uri: 'http://localhost:4000/graphql'
+    })
+  ])
 
   // Override default cache
   // cache: myCache
@@ -45,7 +53,8 @@ const defaultOptions = {
   // getAuth: (tokenName) => ...
 
   // Additional ApolloClient options
-  // apollo: { ... }
+  // apollo: {
+  // }
 
   // Client local data (see apollo-link-state)
   // clientState: { resolvers: { ... }, defaults: { ... } }

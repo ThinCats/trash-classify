@@ -5,13 +5,14 @@ import store from './store'
 import './plugins/element.js'
 import './plugins/echarts.js'
 //@ts-ignore
-import { createProvider, VueApollo } from './vue-apollo'
+import { createProvider, VueApollo, DollarApollo } from './vue-apollo'
 
 Vue.config.productionTip = false
 declare module 'vue/types/vue' {
   interface Vue {
     apolloProvider: VueApollo
     $message: CallableFunction
+    $apollo: DollarApollo<any>
   }
 }
 

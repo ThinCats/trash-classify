@@ -1,6 +1,6 @@
 <template>
   <div class="detect-info">
-    <div class="tagged-card-head"></div>
+    <!-- <div class="tagged-card-head"></div> -->
     <ApolloQuery
       :query="require('../graphql/trashList.gql')"
       v-slot="{ result: { loading, error, data } }"

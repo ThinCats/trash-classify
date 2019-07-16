@@ -48,7 +48,7 @@ export default class NavBar extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-$text-primary-color: #5759ff;
+$text-primary-color: #008080;
 // $text-primary-color: $logo-primary-color;
 $text-actived-color: #222232;
 $page-padding: 6%;

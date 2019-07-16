@@ -27,51 +27,49 @@
       <el-form-item label="or ">
         <el-upload
           ref="trashUpload"
-          class="upload-demo"
           :show-file-list="false"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="#"
           :limit="1"
+          accept="image/png,image/bmp,image/jpg,image/jpeg"
           :before-upload="beforeUpload"
           :on-exceed="handleFileExceed"
           :on-success="handleFileSuccess"
           :on-error="handleFileError"
+          :http-request="uploadElFile"
           list-type="picture"
           :auto-upload="true"
         >
           <el-button size="medium" slot="trigger" type="primary"
             >Select</el-button
           >
-
-          <!-- <div class="el-upload__tip" slot="tip">
-            只能上传图片文件
-          </div> -->
         </el-upload>
       </el-form-item>
     </el-form>
-    <el-card>
-      <img
-        :src="curImageURL"
-        alt=""
-        :style="{ minWidth: '100%', maxWidth: '100%', minHeight: '200px' }"
-      />
-    </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import eventBus from '@/components/EventBus.vue'
 
 import {
   FileListItem,
   ElUpload,
-  ElUploadInternalRawFile
+  ElUploadInternalRawFile,
+  HttpRequestOptions
 } from 'element-ui/types/upload'
 
 import { ElForm } from 'element-ui/types/form'
 
+import * as utils from '@/utils/utils'
+
 interface TrashFormData {
   imgURL: string
+}
+
+enum TrashFormDataType {
+  FILE,
+  URL
 }
 
 enum UploadStatus {
@@ -79,32 +77,33 @@ enum UploadStatus {
   Uploaded
 }
 
-@Component
+@Component({
+  components: {}
+})
 export default class DetectUpload extends Vue {
-  mounted() {
-    eventBus.$on('detect-demo-selected', (imgUrl: string) => {
-      this.submitByImgURL(imgUrl)
-    })
-  }
-
   $refs!: {
     trashUpload: ElUpload
     trashImageForm: ElForm
   }
-
-  // selected image url, usually for demo-case usage, will be the defualt
-  @Prop({ default: '' }) selectedImgURL!: string
+  mounted() {
+    eventBus.$on('detect-demo-selected', (imgURL: string) => {
+      this.submitByImgURL(imgURL)
+    })
+  }
+  @Emit('upload-new-image')
+  private handleUploadNewImage(imageUrl: string) {}
 
   // trash form data
   private trashFormData: TrashFormData = {
-    imgURL: this.selectedImgURL
+    imgURL: ''
+    // type: TrashFormDataType.URL
   }
 
   private trashFormRules: object = {
     imgURL: [{ validator: this.validateImgURL, trigger: 'blur' }]
   }
 
-  private curImageURL: string = this.selectedImgURL
+  private curImageURL: string = ''
 
   private validateImgURL(
     rule: object,
@@ -134,17 +133,60 @@ export default class DetectUpload extends Vue {
   // set the status to uploaded
   private setUploaded() {}
 
-  private onBtnClick() {
-    this.$refs.trashUpload.fileList.push({
-      name: 'a.jpg',
-      url: '#'
-    })
-    this.$refs.trashUpload.submit()
-  }
-
   private submitByImgURL(imgURL: string) {
     this.setUploading()
     this.setCurImageURL(imgURL)
+    this.handleUploadNewImage(imgURL)
+    this.uploadByURL(imgURL)
+  }
+
+  async uploadElFile(option: HttpRequestOptions) {
+    console.log(option.file)
+    //@ts-ignore
+    return this.uploadByFile(option.file)
+  }
+
+  /**
+   * @param {File} image - graphql's param, if set imgURL, file should be null
+   */
+  private uploadByFile(image: File) {
+    this.$apollo
+      .mutate({
+        mutation: require('../graphql/uploadImageByFile.gql'),
+        variables: {
+          image
+        },
+        context: {
+          hasUpload: true
+        }
+      })
+      .then((response: any) => {
+        this.handleRecieveUploadResponse(response.data.uploadImageByFile)
+      })
+      .catch((err: any) => console.log(err))
+  }
+
+  /**
+   * @param {UploadImageResponse} response - get from mutaion, send to father
+   */
+  @Emit('recieve-upload-response')
+  private handleRecieveUploadResponse(response: any) {}
+
+  /**
+   * @param {imgURL} imgURL - imgURL to send
+   */
+  private uploadByURL(imgURL: string) {
+    this.$apollo
+      .mutate({
+        mutation: require('../graphql/uploadImageByURL.gql'),
+        variables: {
+          imgURL
+        }
+      })
+      .then((response: any) => {
+        this.handleRecieveUploadResponse(response.data.uploadImageByURL)
+      })
+      .catch((err: any) => console.log(err))
   }
 
   // form submit
@@ -196,7 +238,9 @@ export default class DetectUpload extends Vue {
 
   private beforeUpload(file: ElUploadInternalRawFile) {
     this.setUploading()
-    this.setCurImageURL(URL.createObjectURL(file))
+    let imgURL = URL.createObjectURL(file)
+    this.setCurImageURL(imgURL)
+    this.handleUploadNewImage(imgURL)
     return true
   }
 }

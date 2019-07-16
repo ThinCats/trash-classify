@@ -1,0 +1,15 @@
+mutation uploadImageByURL($imgURL: String) {
+  uploadImageByURL(imgURL: $imgURL) {
+    taggedImageResult {
+      keyword
+      score
+      root
+    }
+    taggedImagePosition {
+      width
+      height
+      top
+      left
+    }
+  }
+}

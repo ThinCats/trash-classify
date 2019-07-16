@@ -1,0 +1,15 @@
+mutation uploadImg($image: Upload!) {
+  uploadImageByFile(imgFile: $image) {
+    taggedImageResult {
+      keyword
+      score
+      root
+    }
+    taggedImagePosition {
+      width
+      height
+      top
+      left
+    }
+  }
+}
