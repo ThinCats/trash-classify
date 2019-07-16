@@ -1,3 +1,6 @@
+import ImageClassifyAPI from './datasources/ImageClassify'
 export default function() {
-  return {};
+  return {
+    imageClassifyAPI: new ImageClassifyAPI()
+  }
 }

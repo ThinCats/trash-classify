@@ -1,72 +1,54 @@
-import GraphQLJSON from 'graphql-type-json'
 import shortid from 'shortid'
-
+import * as utils from './utils/utils'
+import request from 'request'
 
 export default {
-  JSON: GraphQLJSON,
-
-  Counter: {
-    countStr: counter => `Current count: ${counter.count}`,
-  },
-
-
   Query: {
-    hello: (root, { name }) => `Hello ${name || 'World'}!`,
-    messages: (root, args, { db }) => db.get('messages').value(),
-    uploads: (root, args, { db }) => db.get('uploads').value(),
-
+    trashList: () => [],
+    trash: () => {
+      return {
+        name: '123'
+      }
+    }
   },
 
   Mutation: {
-    myMutation: (root, args, context) => {
-      const message = 'My mutation completed!'
-      context.pubsub.publish('hey', { mySub: message })
-      return message
+    uploadImageByFile: async (parent, { imgFile }, { dataSources }) => {
+      let { createReadStream, filename, mimetype } = await imgFile
+      let imgBase64 = await utils.withBase64Stream(createReadStream())
+      return dataSources.imageClassifyAPI.getUploadImageResponse(imgBase64)
     },
-    addMessage: (root, { input }, { pubsub, db }) => {
-      const message = {
-        id: shortid.generate(),
-        text: input.text,
+
+    uploadImageByURL: async (parent, { imgURL }, { dataSources }) => {
+      let stream = request(imgURL)
+      let imgBase64 = await utils.withBase64Stream(stream)
+      return dataSources.imageClassifyAPI.getUploadImageResponse(imgBase64)
+    },
+
+    uploadImage: async (parent, { imgFile }) => {
+      console.log(imgFile)
+      let { createReadStream, filename, mimetype } = await imgFile
+      return { filename, mimetype }
+    }
+  },
+
+  Trash: {
+    type: () => {
+      return {
+        name: 'recy'
       }
-
-      db
-        .get('messages')
-        .push(message)
-        .last()
-        .write()
-
-      pubsub.publish('messages', { messageAdded: message })
-
-      return message
     },
-
-    singleUpload: (root, { file }, { processUpload }) => processUpload(file),
-    multipleUpload: (root, { files }, { processUpload }) => Promise.all(files.map(processUpload)),
-
-  },
-
-  Subscription: {
-    mySub: {
-      subscribe: (parent, args, { pubsub }) => pubsub.asyncIterator('hey'),
+    name: parent => parent.name || 'test-trash',
+    extraInfo: () => {
+      return {
+        degration: {
+          degrateTime: '123',
+          degrateBy: []
+        }
+      }
     },
-    counter: {
-      subscribe: (parent, args, { pubsub }) => {
-        const channel = Math.random().toString(36).substring(2, 15) // random channel name
-        let count = 0
-        setInterval(() => pubsub.publish(
-          channel,
-          {
-            // eslint-disable-next-line no-plusplus
-            counter: { count: count++ },
-          }
-        ), 2000)
-        return pubsub.asyncIterator(channel)
-      },
-    },
-
-    messageAdded: {
-      subscribe: (parent, args, { pubsub }) => pubsub.asyncIterator('messages'),
-    },
-
-  },
+    id: () => {
+      return shortid.generate()
+    }
+  }
 }

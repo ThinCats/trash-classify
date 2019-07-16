@@ -1,6 +1,7 @@
 scalar Upload
 schema {
   query: Query
+  mutation: Mutation
 }
 type Query {
   trash(name: String!): Trash!
@@ -10,7 +11,7 @@ type Query {
 type Trash {
   type: TrashType!
   name: String! @fake(type: productName)
-  id: ID!
+  id: ID! @fake(type: imageUrl)
   extraInfo: TrashExtraInfo!
 }
 
@@ -35,20 +36,28 @@ type DegrateInfo {
 }
 
 type ImagePosition {
-  width: Float
-  height: Float
-  top: Float
-  left: Float
+  width: Float @fake(type: number, options: {minNumber: 300, maxNumber: 500})
+  height: Float @fake(type: number, options: {minNumber: 400, maxNumber: 600})
+  top: Float @fake(type: number, options: {minNumber: 0, maxNumber: 100})
+  left: Float @fake(type: number, options: {minNumber: 0, maxNumber: 100})
 }
 
 type Mutation {
-  uploadImage(image: Upload!): UploadImageResponse!
+  # image is with base64 encoded
+  uploadImageByURL(imgURL: String): UploadImageResponse!
+  uploadImageByFile(imgFile: Upload!): UploadImageResponse!
+  uploadImage(imgFile: Upload!): FileType!
+}
+
+type FileType {
+  filename: String
+  mimetype: String
 }
 
 type TaggedImageResult {
-  keyword: String
-  score: String
-  root: String
+  keyword: String @examples(values: ["world yoga", "卡通动漫", "图画", "峡谷"])
+  score: Float @fake(type: number, options: {minNumber: 1, maxNumber: 10})
+  root: String @examples(values: ["非自然图像-彩色动漫", "商品-绘画", "自然风景-峡谷", "植物-树"])
 }
 
 type UploadImageResponse {

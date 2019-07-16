@@ -2095,6 +2095,17 @@ apollo-codegen-typescript@0.34.8:
     common-tags "^1.5.1"
     inflected "^2.0.3"
 
+apollo-datasource-rest@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-0.5.1.tgz#bebbe38bdeb6c43ef00bf22dae0b932742178968"
+  integrity sha512-ySgAnP252L0ibJXLzDwF44HBqTV60cL8kZeK0DJgsGtv+SeynXv4GIcqlthbU5h7vzGCaZ/6ijmG4Fx5snkRpw==
+  dependencies:
+    apollo-datasource "0.5.0"
+    apollo-server-caching "0.4.0"
+    apollo-server-env "2.4.0"
+    apollo-server-errors "2.3.1"
+    http-cache-semantics "^4.0.0"
+
 apollo-datasource@0.5.0, apollo-datasource@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npm.taobao.org/apollo-datasource/download/apollo-datasource-0.5.0.tgz#7a8c97e23da7b9c15cb65103d63178ab19eca5e9"
@@ -2308,6 +2319,11 @@ apollo-server-errors@2.3.0, apollo-server-errors@^2.0.2:
   version "2.3.0"
   resolved "https://registry.npm.taobao.org/apollo-server-errors/download/apollo-server-errors-2.3.0.tgz#700622b66a16dffcad3b017e4796749814edc061"
   integrity sha1-cAYitmoW3/ytOwF+R5Z0mBTtwGE=
+
+apollo-server-errors@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.3.1.tgz#033cf331463ebb99a563f8354180b41ac6714eb6"
+  integrity sha512-errZvnh0vUQChecT7M4A/h94dnBSRL213dNxpM5ueMypaLYgnp4hiCTWIEaooo9E4yMGd1qA6WaNbLDG2+bjcg==
 
 apollo-server-express@^2.6.7:
   version "2.6.8"
@@ -2643,10 +2659,10 @@ autoprefixer@^9.5.1:
     postcss "^7.0.17"
     postcss-value-parser "^4.0.0"
 
-await-to-js@^2.0.1:
+await-to-js@^2.0.1, await-to-js@^2.1.1:
   version "2.1.1"
-  resolved "https://registry.npm.taobao.org/await-to-js/download/await-to-js-2.1.1.tgz#c2093cd5a386f2bb945d79b292817bbc3f41b31b"
-  integrity sha1-wgk81aOG8ruUXXmykoF7vD9Bsxs=
+  resolved "https://registry.yarnpkg.com/await-to-js/-/await-to-js-2.1.1.tgz#c2093cd5a386f2bb945d79b292817bbc3f41b31b"
+  integrity sha512-CHBC6gQGCIzjZ09tJ+XmpQoZOn4GdWePB4qUweCaKNJ0D3f115YdhmYVTZ4rMVpiJ3cFzZcTYK1VMYEICV4YXw==
 
 aws-sign2@~0.7.0:
   version "0.7.0"
@@ -6225,6 +6241,11 @@ http-cache-semantics@3.8.1:
   version "3.8.1"
   resolved "https://registry.npm.taobao.org/http-cache-semantics/download/http-cache-semantics-3.8.1.tgz#39b0e16add9b605bf0a9ef3d9daaf4843b4cacd2"
   integrity sha1-ObDhat2bYFvwqe89nar0hDtMrNI=
+
+http-cache-semantics@^4.0.0:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.0.3.tgz#495704773277eeef6e43f9ab2c2c7d259dda25c5"
+  integrity sha512-TcIMG3qeVLgDr1TEd2XvHaTnMPwYQUQMIBLy+5pLSDKYFc7UIqj39w8EGzZkaxoLv/l2K8HaI0t5AVA+YYgUew==
 
 http-call@^5.2.2:
   version "5.2.4"
@@ -11667,7 +11688,14 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
-vue@^2.6.10:
+vue-web-cam@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/vue-web-cam/-/vue-web-cam-1.5.1.tgz#71fda978fda639589f62907bdb52553722e48b9e"
+  integrity sha512-jOI2xxOX42JzWp5eu/k6M618jjJS/B5b7qsTIoP6AiTu8MTcIqV0gGqjWTsZ9aHJJnvSk63yxbw2dP8YreOm9w==
+  dependencies:
+    vue "^2.5.17"
+
+vue@^2.5.17, vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha1-pysaQqTYKnIepDjRtr9V5mGVxjc=

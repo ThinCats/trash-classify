@@ -1,6 +1,7 @@
 scalar Upload
 schema {
   query: Query
+  mutation: Mutation
 }
 type Query {
   trash(name: String!): Trash!
@@ -10,7 +11,7 @@ type Query {
 type Trash {
   type: TrashType!
   name: String! 
-  id: ID!
+  id: ID! 
   extraInfo: TrashExtraInfo!
 }
 
@@ -35,20 +36,28 @@ type DegrateInfo {
 }
 
 type ImagePosition {
-  width: Float
-  height: Float
-  top: Float
-  left: Float
+  width: Float 
+  height: Float 
+  top: Float 
+  left: Float 
 }
 
 type Mutation {
-  uploadImage(image: Upload!): UploadImageResponse!
+  # image is with base64 encoded
+  uploadImageByURL(imgURL: String): UploadImageResponse!
+  uploadImageByFile(imgFile: Upload!): UploadImageResponse!
+  uploadImage(imgFile: Upload!): FileType!
+}
+
+type FileType {
+  filename: String
+  mimetype: String
 }
 
 type TaggedImageResult {
-  keyword: String
-  score: String
-  root: String
+  keyword: String 
+  score: Float 
+  root: String 
 }
 
 type UploadImageResponse {
