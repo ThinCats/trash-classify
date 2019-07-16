@@ -14,6 +14,10 @@ export async function blobToBase64(blob: Blob): Promise<string> {
   })
 }
 
+export async function base64ToBlob(base64Obj: string): Promise<Blob> {
+  return fetch(base64Obj).then(res => res.blob())
+}
+
 export async function urlToBlob(url: string): Promise<Blob> {
   let response = await fetch(url, { mode: 'no-cors' })
   return response.blob()

@@ -44,6 +44,11 @@
           >
         </el-upload>
       </el-form-item>
+      <el-form-item label=" | ">
+        <detect-upload-webcam
+          @captured-image="submitBase64Data"
+        ></detect-upload-webcam>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -60,6 +65,7 @@ import {
 } from 'element-ui/types/upload'
 
 import { ElForm } from 'element-ui/types/form'
+import DetectUploadWebcam from '@/components/DetectUploadWebcam.vue'
 
 import * as utils from '@/utils/utils'
 
@@ -78,7 +84,9 @@ enum UploadStatus {
 }
 
 @Component({
-  components: {}
+  components: {
+    DetectUploadWebcam
+  }
 })
 export default class DetectUpload extends Vue {
   $refs!: {
@@ -209,6 +217,17 @@ export default class DetectUpload extends Vue {
     this.submitByImgURL(formData.imgURL)
   }
 
+  private submitBase64Data(imgBase64URL: string) {
+    this.setUploading()
+    this.setCurImageURL(imgBase64URL)
+    this.handleUploadNewImage(imgBase64URL)
+    utils.base64ToBlob(imgBase64URL).then(blob => {
+      console.log('Blob: ', blob)
+      let file = new File([blob], 'spanshot.jpg', { lastModified: Date.now() })
+      this.uploadByFile(file)
+    })
+  }
+
   private handleFileError() {
     this.$message({
       message: 'File error, failed to upload',
@@ -237,8 +256,8 @@ export default class DetectUpload extends Vue {
   }
 
   private beforeUpload(file: ElUploadInternalRawFile) {
-    this.setUploading()
     let imgURL = URL.createObjectURL(file)
+    this.setUploading()
     this.setCurImageURL(imgURL)
     this.handleUploadNewImage(imgURL)
     return true
