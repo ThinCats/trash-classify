@@ -9,10 +9,11 @@
       :visible.sync="dialogTableVisible"
       :show-close="false"
     >
-      <!-- Recreate the component if reopen dialog -->
+      <!-- Recreate the component if reopen dialog, if open start the camera -->
       <web-cam
         @captured-image="handleCapturedImage"
         @close-me="dialogTableVisible = false"
+        :startCameraFlag="dialogTableVisible"
       ></web-cam>
     </el-dialog>
   </div>

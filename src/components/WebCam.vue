@@ -49,6 +49,14 @@ export default {
       devices: []
     }
   },
+  props: {
+    // use for father component to start the camera
+    // like autostart the camera if set true
+    startCameraFlag: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     device: function() {
       return this.devices.find(n => n.deviceId === this.deviceId)
@@ -64,6 +72,12 @@ export default {
       if (first) {
         this.camera = first.deviceId
         this.deviceId = first.deviceId
+      }
+    },
+    startCameraFlag: function() {
+      // if set true, then start the camera
+      if (this.startCameraFlag === true) {
+        this.onStart()
       }
     }
   },
