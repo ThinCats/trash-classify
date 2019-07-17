@@ -26,7 +26,10 @@
           </div>
         </el-col>
         <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
-          <detect-info v-if="isUploaded || !showDailyArticle"></detect-info>
+          <detect-info
+            v-if="isUploaded || !showDailyArticle"
+            :detectedObjectList="taggedImageResult"
+          ></detect-info>
           <article-daily v-else></article-daily>
         </el-col>
       </el-row>
@@ -43,7 +46,11 @@ import ArticleDaily from '@/components/ArticleDaily.vue'
 import DetectImageShow from '@/components/DetectImageShow.vue'
 import DetectImageTagged from '@/components/DetectImageTagged.vue'
 
-import { UploadImageResponse, ImagePosition } from '@/types/graphql'
+import {
+  UploadImageResponse,
+  ImagePosition,
+  TaggedImageResult
+} from '@/types/graphql'
 
 @Component({
   components: {
@@ -70,6 +77,9 @@ export default class Detect extends Vue {
     left: 0
   }
 
+  // the result of object detection
+  private taggedImageResult: TaggedImageResult[] = []
+
   private handleUploadNewImage(imgUrl: string) {
     this.curShowImage = imgUrl
     this.isUploaded = false
@@ -78,6 +88,7 @@ export default class Detect extends Vue {
   private handleReciveUploadResponse(response: UploadImageResponse) {
     console.log(response.taggedImageResult)
     console.log(response.taggedImagePosition)
+    this.taggedImageResult = response.taggedImageResult
     this.taggedImagePosition = response.taggedImagePosition
     this.showDailyArticle = false
     this.isUploaded = true

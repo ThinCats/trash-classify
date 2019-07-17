@@ -1,6 +1,7 @@
 <template>
   <div class="detect-info">
     <!-- <div class="tagged-card-head"></div> -->
+    <detect-info-charts :dataShowList="detectedObjectList"></detect-info-charts>
     <ApolloQuery
       :query="require('../graphql/trashList.gql')"
       v-slot="{ result: { loading, error, data } }"
@@ -48,6 +49,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import DetectRate from '@/components/DetectRate.vue'
 import DetectInfoItem from '@/components/DetectInfoItem.vue'
+import DetectInfoCharts from '@/components/DetectInfoCharts.vue'
 
 interface TrashType {
   date: string
@@ -57,13 +59,24 @@ interface TrashType {
 
 const today = new Date().toLocaleDateString()
 
+interface DetectedObject {
+  keyword: string
+  root: string
+  score: number
+}
+
 @Component({
   components: {
     DetectRate,
-    DetectInfoItem
+    DetectInfoItem,
+    DetectInfoCharts
   }
 })
 export default class TrashDetectInfo extends Vue {
+  // contain the result of object detection
+  // use to pass to children display components
+  @Prop({ default: () => [] }) detectedObjectList!: DetectedObject[]
+
   private trashRate: number = 0
   private tableData: TrashType[] = [
     {
@@ -84,6 +97,8 @@ export default class TrashDetectInfo extends Vue {
 <style scoped lang="scss">
 .detect-info {
   // margin: auto;
+  // always full
+  width: 100%;
 }
 
 .trash-info-tips {
