@@ -1,5 +1,5 @@
 export async function withBase64Stream(stream) {
-  return new Promise((resolve, rejectj) => {
+  return new Promise((resolve, reject) => {
     let buffers = []
     stream.on('data', chunk => {
       buffers.push(chunk)
