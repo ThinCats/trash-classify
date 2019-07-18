@@ -4,11 +4,11 @@ import request from 'request'
 
 export default {
   Query: {
-    trashList: () => [],
-    trash: () => {
-      return {
-        name: '123'
-      }
+    trashList: async (_, { trashNameList }, { dataSources }) => {
+      return dataSources.trashAPI.getTrashByNameList(trashNameList)
+    },
+    trash: async (_, { name: { keyword, root } }, { dataSources }) => {
+      return dataSources.trashAPI.getTrashByName({ keyword, root })
     }
   },
 
@@ -33,22 +33,11 @@ export default {
   },
 
   Trash: {
-    type: () => {
-      return {
-        name: 'recy'
-      }
+    type: async (trash, _, { dataSources }) => {
+      return dataSources.trashAPI.getTrashTypeById(trash.trashTypeId)
     },
-    name: parent => parent.name || 'test-trash',
-    extraInfo: () => {
-      return {
-        degration: {
-          degrateTime: '123',
-          degrateBy: []
-        }
-      }
-    },
-    id: () => {
-      return shortid.generate()
+    extraInfo: async (trash, _, { dataSources }) => {
+      return dataSources.trashAPI.getTrashExtraById(trash.extraInfoId)
     }
   }
 }

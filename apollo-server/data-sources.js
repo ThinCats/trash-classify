@@ -1,6 +1,8 @@
 import ImageClassifyAPI from './datasources/ImageClassify'
-export default function() {
+import TrashAPI from './datasources/Trash'
+export default function () {
   return {
-    imageClassifyAPI: new ImageClassifyAPI()
+    imageClassifyAPI: new ImageClassifyAPI(),
+    trashAPI: new TrashAPI()
   }
 }

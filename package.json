@@ -16,7 +16,7 @@
     "fake:convert": "node utils/fake_convert.js ./schemas",
     "postfake": "yarn fake:convert",
     "preapollo": "yarn fake:convert",
-    "preserve": "yarn fake:convert && yarn codegen",
+    "i2preserve": "yarn fake:convert && yarn codegen",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
