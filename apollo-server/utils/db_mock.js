@@ -76,7 +76,8 @@ const db = {
   Trash,
   TrashType,
   TrashExtraInfo,
-  $Op: Sequelize.Op
+  $Op: Sequelize.Op,
+  $SQL: sequelize
 }
 
 export { db }

@@ -28,7 +28,7 @@ export default class TrashAPI extends DataSource {
    * @param {string[]} word_list - word to do fuzz lookup
    * @return {[]} - the result use for sequelize, like [word,..., {[Op.like]: %word%}...]
    */
-  buildFuzzyLookupStringList(word_list) {
+  buildFuzzyLookupPatternList(word_list) {
     let precise_match_list = word_list.map(word => {
       return `${word}`
     })
@@ -45,17 +45,39 @@ export default class TrashAPI extends DataSource {
     return precise_match_list.concat(fuzz_match_list)
   }
 
+  /**
+   * @brief create the orderPattern to order the result according to prec
+   * @param {any[]} fuzzyPatternList - the pattern to match
+   * @param {string} colum - the colum to be ordered
+   */
+  buildFuzzyOrderPattern(fuzzyPatternList, colum) {
+    let orderPattern = []
+    fuzzyPatternList.forEach(pattern => {
+      if (typeof pattern === 'string') {
+        orderPattern.push(
+          this.db.$SQL.literal(
+            `(case when instr(\`Trash\`.\`${colum}\`, '${pattern}')>0 then 0 else 1 end)`
+          )
+        )
+      }
+    })
+    return orderPattern
+  }
+
   async getTrashByName({ keyword, root }) {
     // randomly get one if match
     let Op = this.db.$Op
+    const fuzzyPatternList = this.buildFuzzyLookupPatternList(
+      [keyword].concat(root.split('-'))
+    )
     const trash = await this.db.Trash.findOne({
       where: {
         name: {
-          [Op.or]: this.buildFuzzyLookupStringList(
-            [keyword].concat(root.split('-'))
-          )
+          [Op.or]: fuzzyPatternList
         }
-      }
+      },
+      // order by abs(len(col) - len(val))
+      order: this.buildFuzzyOrderPattern(fuzzyPatternList, 'name')
     })
 
     if (!trash) {
