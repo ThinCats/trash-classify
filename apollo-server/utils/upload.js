@@ -1,37 +1,35 @@
-import { createWriteStream } from 'fs'
-import { resolve } from 'path'
-import { sync } from 'mkdirp'
-import { generate } from 'shortid'
-import { db } from './db'
+import * as utils from './utils'
+import * as Errors from '../Errors.ts'
 
-const uploadDir = resolve(__dirname, '../../live/uploads')
-
-// Ensure upload directory exists
-sync(uploadDir)
-
-const storeUpload = async ({ stream, filename }) => {
-  const id = generate()
-  const file = `${id}-${filename}`
-  const path = `${uploadDir}/${file}`
-  const urlPath = `files/${file}`
-
-  return new Promise((resolve, reject) =>
-    stream
-      .pipe(createWriteStream(path))
-      .on('finish', () => resolve({ id, path: urlPath }))
-      .on('error', reject),
-  )
+export function checkImageMimetype(mimetype) {
+  return utils.checkMimeType(mimetype, [
+    'image/jpeg',
+    'image/png',
+    'application/octet-stream'
+  ])
 }
 
-const recordFile = file =>
-  db
-    .get('uploads')
-    .push(file)
-    .last()
-    .write()
+function checkFileSize(buffer) {
+  // no more than 5 mb
+  if (buffer.length > 5 * 1024 * 1024) {
+    return new Errors.UploadImageSizeError()
+  }
+}
 
-export async function processUpload (file) {
-  const { stream, filename, mimetype, encoding } = await file
-  const { id, path } = await storeUpload({ stream, filename })
-  return recordFile({ id, filename, mimetype, encoding, path })
+export function withBase64Stream(stream) {
+  return utils.withBase64Stream(stream, checkFileSize)
+}
+
+export function loadFromCache(cache, url) {
+  let res = cache.get(url)
+  return res
+}
+
+export async function saveToCache(cache, url, uploadImageRes) {
+  let response = await uploadImageRes
+  let success = cache.set(url, response)
+  if (!success) {
+    console.log('Warning: save url to cache failed')
+  }
+  return response
 }

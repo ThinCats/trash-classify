@@ -1,3 +1,7 @@
+directive @cacheControl(
+  maxAge: Int
+) on OBJECT | FIELD_DEFINITION
+
 scalar Upload
 schema {
   query: Query
@@ -10,20 +14,22 @@ input TrashQueryArg {
 }
 
 type Query {
+  errors: [PropheticError!]!
   trash(name: TrashQueryArg!): Trash
   trashList(trashNameList: [TrashQueryArg!]!): [Trash!]!
 }
 
-type Trash {
+type Trash @cacheControl(maxAge: 3600) {
   type: TrashType!
   name: String! @fake(type: productName)
   id: ID! @fake(type: imageUrl)
   extraInfo: TrashExtraInfo!
 }
 
-type TrashExtraInfo {
-  id: ID!
+type TrashExtraInfo @cacheControl(maxAge: 3600) {
+  id: ID! @examples(values: ["1", "2", "3", "4"])
   degrateTime: Int!
+    @fake(type: number, options: { minNumber: 0, maxNumber: 1300 })
 }
 
 type HTMLType {
@@ -32,8 +38,8 @@ type HTMLType {
   css: [String!]!
 }
 
-type TrashType {
-  id: ID!
+type TrashType @cacheControl(maxAge: 3600) {
+  id: ID! @examples(values: ["1", "2", "3", "4"])
   name: String! @examples(values: ["recy", "non-recy"])
 }
 
@@ -46,8 +52,8 @@ type ImagePosition {
 
 type Mutation {
   # image is with base64 encoded
-  uploadImageByURL(imgURL: String): UploadImageResponse!
-  uploadImageByFile(imgFile: Upload!): UploadImageResponse!
+  uploadImageByURL(imgURL: String): UploadImageResponse! @cacheControl(maxAge: 36000)
+  uploadImageByFile(imgFile: Upload!): UploadImageResponse! @cacheControl(maxAge: 36000)
   uploadImage(imgFile: Upload!): FileType!
 }
 
@@ -59,10 +65,23 @@ type FileType {
 type TaggedImageResult {
   keyword: String @examples(values: ["world yoga", "卡通动漫", "图画", "峡谷"])
   score: Float @fake(type: number, options: { minNumber: 1, maxNumber: 10 })
-  root: String @examples(values: ["非自然图像-彩色动漫", "商品-绘画", "自然风景-峡谷", "植物-树"])
+  root: String
+    @examples(
+      values: ["非自然图像-彩色动漫", "商品-绘画", "自然风景-峡谷", "植物-树"]
+    )
 }
 
-type UploadImageResponse {
+type UploadImageResponse @cacheControl(maxAge: 3600) {
   taggedImageResult: [TaggedImageResult!]!
   taggedImagePosition: ImagePosition!
+}
+
+type PropheticErrorExtensions {
+  code: String
+}
+
+type PropheticError {
+  name: String
+  message: String
+  extensions: PropheticErrorExtensions
 }

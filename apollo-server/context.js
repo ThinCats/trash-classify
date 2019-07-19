@@ -1,7 +1,8 @@
 import { db } from './utils/db'
-import { processUpload } from './utils/upload'
 import { BaiduAccessToken } from '../secret/baidu'
+import NodeCache from 'node-cache'
 
+const nodeCache = new NodeCache({ stdTTL: 6000, checkperiod: 6010 })
 // Context passed to all resolvers (third argument)
 // req => Query
 // connection => Subscription
@@ -9,7 +10,8 @@ import { BaiduAccessToken } from '../secret/baidu'
 export default ({ req, connection }) => {
   return {
     db,
-    processUpload,
-    api_token: BaiduAccessToken
+    api_token: BaiduAccessToken,
+    // simple cache
+    cache: nodeCache
   }
 }

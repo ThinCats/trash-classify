@@ -1,0 +1,26 @@
+{
+  "ImageClassifyAPILimitedError": {
+    "message": "Maximium API usage is reached, please retry later",
+    "code": "CLASSIFY_API_LIMITED"
+  },
+  "ImageClassifyAPIError": {
+    "message": "Something wrong in API server, try to contact with us",
+    "code": "CLASSIFY_API_ERROR"
+  },
+  "UploadImageTypeError": {
+    "message": "Image type error(accept jpg/png), please choose another one",
+    "code": "IMAGE_TYPE_INVALID"
+  },
+  "UploadImageSizeError": {
+    "message": "Image is too big(more than 5mb), please choose another one",
+    "code": "IMAGE_SIZE_LIMITED"
+  },
+  "UploadImageURLError": {
+    "message": "Image url error, retry",
+    "code": "IMAGE_URL_INVALID"
+  },
+  "TrashNotFoundError": {
+    "message": "Sorry, no trash found",
+    "code": "TRASH_NOT_FOUND"
+  }
+}

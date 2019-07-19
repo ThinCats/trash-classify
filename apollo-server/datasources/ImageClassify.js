@@ -1,5 +1,7 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import querystring from 'querystring'
+import * as Errors from '../Errors.ts'
+
 export default class ImageClassifyAPI extends RESTDataSource {
   constructor() {
     super()
@@ -27,25 +29,45 @@ export default class ImageClassifyAPI extends RESTDataSource {
   }
 
   /**
+   * @brief check whether response contains error message
+   * @param {object} response - response from api server
+   */
+  checkError(response) {
+    // no error
+    if (typeof response.error_code === 'undefined') {
+      return
+    }
+
+    // check error
+    if (response.error_code === 18)
+      throw new Errors.ImageClassifyAPILimitedError()
+    else if (response.error_code === 216201)
+      throw new Errors.UploadImageTypeError()
+  }
+
+  async postAPI(api_uri, option) {
+    let response = await this.post(
+      this.urlWithToken(api_uri),
+      this.encodeWithOption(option)
+    ).catch(err => {
+      // usually network error
+      throw new Errors.ImageClassifyAPIError()
+    })
+
+    this.checkError(response)
+    return response
+  }
+
+  /**
    * @param imgBase64: string - base64 for img to upload
    * @return Response: object
    */
   async getObjectDetectResult(imgBase64) {
-    let response = await this.post(
-      this.urlWithToken('v1/object_detect'),
-      this.encodeWithOption({ image: imgBase64 })
-    )
-    console.log(response)
-    return response
+    return this.postAPI('v1/object_detect', { image: imgBase64 })
   }
 
   async getImageIdentifyResult(imgBase64) {
-    let response = await this.post(
-      this.urlWithToken('v2/advanced_general'),
-      this.encodeWithOption({ image: imgBase64 })
-    )
-    console.log(response)
-    return response
+    return this.postAPI('v2/advanced_general', { image: imgBase64 })
   }
 
   async getUploadImageResponse(imgBase64) {

@@ -40,7 +40,6 @@ export default class TrashAPI extends DataSource {
           [this.db.$Op.like]: `%${word}%`
         }
       })
-    console.log(precise_match_list.concat(fuzz_match_list))
     // precise match has higher prec
     return precise_match_list.concat(fuzz_match_list)
   }
@@ -96,7 +95,6 @@ export default class TrashAPI extends DataSource {
     const findType = this.getTrashTypeById(trashTypeId)
 
     let [extraInfo, typeInfo] = await Promise.all([findExtra, findType])
-    console.log(extraInfo, typeInfo)
     return {
       id,
       extraInfo,

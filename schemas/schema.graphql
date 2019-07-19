@@ -1,3 +1,7 @@
+directive @cacheControl(
+  maxAge: Int
+) on OBJECT | FIELD_DEFINITION
+
 scalar Upload
 schema {
   query: Query
@@ -10,20 +14,22 @@ input TrashQueryArg {
 }
 
 type Query {
+  errors: [PropheticError!]!
   trash(name: TrashQueryArg!): Trash
   trashList(trashNameList: [TrashQueryArg!]!): [Trash!]!
 }
 
-type Trash {
+type Trash @cacheControl(maxAge: 3600) {
   type: TrashType!
   name: String! 
   id: ID! 
   extraInfo: TrashExtraInfo!
 }
 
-type TrashExtraInfo {
-  id: ID!
+type TrashExtraInfo @cacheControl(maxAge: 3600) {
+  id: ID! 
   degrateTime: Int!
+    
 }
 
 type HTMLType {
@@ -32,8 +38,8 @@ type HTMLType {
   css: [String!]!
 }
 
-type TrashType {
-  id: ID!
+type TrashType @cacheControl(maxAge: 3600) {
+  id: ID! 
   name: String! 
 }
 
@@ -46,8 +52,8 @@ type ImagePosition {
 
 type Mutation {
   # image is with base64 encoded
-  uploadImageByURL(imgURL: String): UploadImageResponse!
-  uploadImageByFile(imgFile: Upload!): UploadImageResponse!
+  uploadImageByURL(imgURL: String): UploadImageResponse! @cacheControl(maxAge: 36000)
+  uploadImageByFile(imgFile: Upload!): UploadImageResponse! @cacheControl(maxAge: 36000)
   uploadImage(imgFile: Upload!): FileType!
 }
 
@@ -59,10 +65,21 @@ type FileType {
 type TaggedImageResult {
   keyword: String 
   score: Float 
-  root: String 
+  root: String
+    
 }
 
-type UploadImageResponse {
+type UploadImageResponse @cacheControl(maxAge: 3600) {
   taggedImageResult: [TaggedImageResult!]!
   taggedImagePosition: ImagePosition!
+}
+
+type PropheticErrorExtensions {
+  code: String
+}
+
+type PropheticError {
+  name: String
+  message: String
+  extensions: PropheticErrorExtensions
 }

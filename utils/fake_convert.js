@@ -11,7 +11,7 @@ function removeDirectives(toConvertStr, directives) {
   let convertedStr = String(toConvertStr)
   for (const directive of directives) {
     const directiveStr = `@${directive}` // like @example
-    const reg = new RegExp(`${directiveStr}.*`, 'g')
+    const reg = new RegExp(`${directiveStr}[\\s]?\\((?:.|\\s)*?\\)`, 'g')
     convertedStr = convertedStr.replace(reg, '')
   }
   return convertedStr
