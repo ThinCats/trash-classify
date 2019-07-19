@@ -1,13 +1,14 @@
-query List {
-  trashList(trashNameList: ["123"]) {
+query List($trashQueryList: [TrashQueryArg!]!) {
+  trashList(trashNameList: $trashQueryList) {
+    id
     name
     type {
+      id
       name
     }
     extraInfo {
-      degration {
-        degrateTime
-      }
+      id
+      degrateTime
     }
   }
 }

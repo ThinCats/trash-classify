@@ -86,8 +86,6 @@ export default class Detect extends Vue {
   }
 
   private handleReciveUploadResponse(response: UploadImageResponse) {
-    console.log(response.taggedImageResult)
-    console.log(response.taggedImagePosition)
     this.taggedImageResult = response.taggedImageResult
     this.taggedImagePosition = response.taggedImagePosition
     this.showDailyArticle = false

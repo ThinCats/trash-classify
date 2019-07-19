@@ -90,3 +90,18 @@ export function getScaledPosition(
 
   return getScaledPositionByScale(curPosition, scale)
 }
+
+/**
+ *
+ * @param arr - array contains object
+ * @param key - key to identify each object(object[key])
+ */
+export function uniqueObjArray<T>(arr: T[], key: string): T[] {
+  let objMap = new Map()
+  arr.forEach(val => {
+    //@ts-ignore
+    objMap.set(val[key], val)
+  })
+
+  return Array.from(objMap.values())
+}

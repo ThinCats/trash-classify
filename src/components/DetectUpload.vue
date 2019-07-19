@@ -56,6 +56,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import eventBus from '@/components/EventBus.vue'
+import * as Errors from '@/types/Errors'
+import { ApolloError } from 'apollo-client'
 
 import {
   FileListItem,
@@ -149,7 +151,6 @@ export default class DetectUpload extends Vue {
   }
 
   async uploadElFile(option: HttpRequestOptions) {
-    console.log(option.file)
     //@ts-ignore
     return this.uploadByFile(option.file)
   }
@@ -160,7 +161,7 @@ export default class DetectUpload extends Vue {
   private uploadByFile(image: File) {
     this.$apollo
       .mutate({
-        mutation: require('../graphql/uploadImageByFile.gql'),
+        mutation: require('@/graphql/uploadImageByFile.gql'),
         variables: {
           image
         },
@@ -171,7 +172,7 @@ export default class DetectUpload extends Vue {
       .then((response: any) => {
         this.handleRecieveUploadResponse(response.data.uploadImageByFile)
       })
-      .catch((err: any) => console.log(err))
+      .catch(this.handleApolloError)
   }
 
   /**
@@ -186,7 +187,7 @@ export default class DetectUpload extends Vue {
   private uploadByURL(imgURL: string) {
     this.$apollo
       .mutate({
-        mutation: require('../graphql/uploadImageByURL.gql'),
+        mutation: require('@/graphql/uploadImageByURL.gql'),
         variables: {
           imgURL
         }
@@ -194,7 +195,7 @@ export default class DetectUpload extends Vue {
       .then((response: any) => {
         this.handleRecieveUploadResponse(response.data.uploadImageByURL)
       })
-      .catch((err: any) => console.log(err))
+      .catch(this.handleApolloError)
   }
 
   // form submit
@@ -222,7 +223,6 @@ export default class DetectUpload extends Vue {
     this.setCurImageURL(imgBase64URL)
     this.handleUploadNewImage(imgBase64URL)
     utils.base64ToBlob(imgBase64URL).then(blob => {
-      console.log('Blob: ', blob)
       let file = new File([blob], 'spanshot.jpg', { lastModified: Date.now() })
       this.uploadByFile(file)
     })
@@ -261,6 +261,24 @@ export default class DetectUpload extends Vue {
     this.setCurImageURL(imgURL)
     this.handleUploadNewImage(imgURL)
     return true
+  }
+
+  private handleApolloError(error: ApolloError) {
+    let errMesFn = () => {
+      this.$message({
+        type: 'error',
+        // delete GPAPHQLError: ...
+        message: error.message
+      })
+    }
+    Errors.isThis(error)
+      .ImageClassifyAPILimitedError(errMesFn)
+      .UploadImageTypeError(errMesFn)
+      .UploadImageSizeError(errMesFn)
+      .UploadImageURLError(errMesFn)
+      .ImageClassifyAPIError(errMesFn)
+      .CodeLessError(errMesFn)
+      .handle()
   }
 }
 </script>
