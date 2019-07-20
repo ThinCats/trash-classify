@@ -20,7 +20,9 @@ export default {
     trash: async (_, { name: { keyword, root } }, { dataSources }) => {
       return dataSources.trashAPI.getTrashByName({ keyword, root })
     },
-    errors: () => Errors.errorsList
+    errors: (_, __, context) => Errors.errorsList,
+    dailyArticle: (_, __, { dataSources }) =>
+      dataSources.articleAPI.getDailyArticle()
   },
 
   Mutation: {
@@ -55,10 +57,13 @@ export default {
 
       let stream = request(imgURL)
       let imgBase64 = await uploadUtil.withBase64Stream(stream)
-      response = dataSources.imageClassifyAPI.getUploadImageResponse(imgBase64)
+      response = await dataSources.imageClassifyAPI.getUploadImageResponse(
+        imgBase64
+      )
 
       // save to cache
-      return uploadUtil.saveToCache(cache, imgURL, response)
+      uploadUtil.saveToCache(cache, imgURL, response)
+      return response
     },
 
     uploadImage: async (parent, { imgFile }) => {

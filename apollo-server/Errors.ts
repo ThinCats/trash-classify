@@ -1,5 +1,5 @@
 
-  import { ApolloError } from 'apollo-server'
+  import { ApolloError } from 'apollo-server-express'
 
   export const errorsList = [
   {

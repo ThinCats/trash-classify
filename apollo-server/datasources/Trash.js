@@ -1,8 +1,7 @@
 import { DataSource } from 'apollo-datasource'
-import { db } from '../utils/db_mock'
 
 export default class TrashAPI extends DataSource {
-  constructor() {
+  constructor({ db }) {
     super()
     this.db = db
   }

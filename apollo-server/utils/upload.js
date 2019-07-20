@@ -25,11 +25,10 @@ export function loadFromCache(cache, url) {
   return res
 }
 
-export async function saveToCache(cache, url, uploadImageRes) {
-  let response = await uploadImageRes
-  let success = cache.set(url, response)
+export function saveToCache(cache, url, uploadImageRes) {
+  let success = cache.set(url, uploadImageRes)
   if (!success) {
     console.log('Warning: save url to cache failed')
   }
-  return response
+  return uploadImageRes
 }

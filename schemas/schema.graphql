@@ -17,6 +17,7 @@ type Query {
   errors: [PropheticError!]!
   trash(name: TrashQueryArg!): Trash
   trashList(trashNameList: [TrashQueryArg!]!): [Trash!]!
+  dailyArticle: DailyArticle!
 }
 
 type Trash @cacheControl(maxAge: 3600) {
@@ -28,8 +29,11 @@ type Trash @cacheControl(maxAge: 3600) {
 
 type TrashExtraInfo @cacheControl(maxAge: 3600) {
   id: ID! 
-  degrateTime: Int!
+  degrateTime: Float!
     
+  degrateWay: String!
+  about: String!
+  category: String!
 }
 
 type HTMLType {
@@ -82,4 +86,9 @@ type PropheticError {
   name: String
   message: String
   extensions: PropheticErrorExtensions
+}
+
+type DailyArticle @cacheControl(maxAge: 3600) {
+  id: ID!
+  article: String! 
 }

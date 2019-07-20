@@ -27,7 +27,6 @@
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-datasource-rest": "^0.5.1",
     "apollo-link": "^1.2.12",
-    "apollo-server": "^2.7.0",
     "apollo-upload-client": "^11.0.0",
     "await-to-js": "^2.1.1",
     "core-js": "^2.6.5",

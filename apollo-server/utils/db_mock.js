@@ -65,7 +65,36 @@ TrashExtraInfo.init(
       autoIncrement: true
     },
     degrateTime: {
-      type: Sequelize.DATE,
+      type: Sequelize.DOUBLE,
+      allowNull: false
+    },
+    degrateWay: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    about: {
+      type: Sequelize.TEXT,
+      allowNull: false
+    },
+    category: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
+  },
+  option
+)
+
+class DailyArticle extends Sequelize.Model { }
+DailyArticle.init(
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
+    article: {
+      type: Sequelize.TEXT,
       allowNull: false
     }
   },
@@ -76,6 +105,7 @@ const db = {
   Trash,
   TrashType,
   TrashExtraInfo,
+  DailyArticle,
   $Op: Sequelize.Op,
   $SQL: sequelize
 }
