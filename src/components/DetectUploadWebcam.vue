@@ -8,6 +8,8 @@
       title="Camera"
       :visible.sync="dialogTableVisible"
       :show-close="false"
+      :close-on-press-escape="false"
+      center
     >
       <!-- Recreate the component if reopen dialog, if open start the camera -->
       <web-cam
@@ -31,8 +33,11 @@ import WebCam from '@/components/WebCam.vue'
 export default class DetectUploadWebcam extends Vue {
   private dialogTableVisible: boolean = false
 
-  @Emit('captured-image')
   private handleCapturedImage(img: string) {
+    // only when image is valid
+    if (img.length > 0) {
+      this.$emit('captured-image', img)
+    }
     this.dialogTableVisible = false
   }
 }
