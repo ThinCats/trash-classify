@@ -21,9 +21,6 @@
       <el-menu-item class="page-link" index="2">
         <router-link to="/about">About</router-link>
       </el-menu-item>
-      <el-menu-item class="page-link" index="3">
-        <router-link to="/test">Test</router-link>
-      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -38,7 +35,7 @@ import SideMenu from '@/components/SideMenu.vue'
   }
 })
 export default class NavBar extends Vue {
-  @Prop({ default: '3' }) private readonly activeIndex!: string
+  @Prop({ default: '1' }) private readonly activeIndex!: string
 
   private logoSrc: string = '../assets/logo.png'
 
