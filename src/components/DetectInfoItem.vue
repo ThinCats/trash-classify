@@ -45,7 +45,6 @@
               </div>
               <div>is</div>
               <em class="card-trash-type">{{ trash.type.name }} </em>
-
             </div>
           </el-popover>
         </el-card>
@@ -210,7 +209,7 @@ export default class DetectInfoItem extends Vue {
   border-radius: 2rem;
 
   .see-more {
-    text-style: italic;
+    font-style: italic;
   }
 
   .info-item-text-card {
@@ -236,9 +235,11 @@ export default class DetectInfoItem extends Vue {
 
 <style lang="scss">
 .info-item-time-progress {
-  .el-progress__text {
-    width: 5rem;
-    padding: 0.625rem;
+  & > .el-progress_circle {
+    .el-progress__text {
+      width: 5rem;
+      padding: 0.625rem;
+    }
   }
 }
 
