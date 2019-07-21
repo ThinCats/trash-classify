@@ -56,7 +56,7 @@ $page-padding: 6%;
 .nav-bar {
   display: flex;
   justify-content: space-between;
-  width: 88vw;
+  width: 80vw;
   margin: 0 auto;
   .nav-head {
     display: flex;
@@ -66,6 +66,11 @@ $page-padding: 6%;
       margin-left: 2rem;
     }
   }
+
+  .logo-container {
+    background-color: white;
+    border-radius: 1.2rem;
+  }
 }
 
 .logo-img {
@@ -73,7 +78,6 @@ $page-padding: 6%;
 }
 
 .nav-menu {
-  margin-right: 2rem;
   .page-link {
     margin-right: 0.1rem;
     padding: 0;
@@ -97,6 +101,23 @@ $page-padding: 6%;
     &.is-active > a {
       color: $text-actived-color;
     }
+  }
+}
+</style>
+
+<style lang="scss">
+// change nav-menu's style
+.nav-bar {
+  .nav-menu.el-menu {
+    background-color: transparent;
+    &.el-menu--horizontal {
+      border-bottom: none;
+    }
+  }
+  // delete the nav-menu background when hover or focus
+  .el-menu--horizontal > .el-menu-item:not(.is-disabled):hover,
+  .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus {
+    background-color: transparent;
   }
 }
 </style>

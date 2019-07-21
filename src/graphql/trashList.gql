@@ -9,6 +9,9 @@ query List($trashQueryList: [TrashQueryArg!]!) {
     extraInfo {
       id
       degrateTime
+      degrateWay
+      about
+      category
     }
   }
 }

@@ -3611,6 +3611,13 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000980, caniuse-lite@^1.0.30000981:
   resolved "https://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30000983.tgz#ab3c70061ca2a3467182a10ac75109b199b647f8"
   integrity sha1-qzxwBhyio0ZxgqEKx1EJsZm2R/g=
 
+canvas-nest.js@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/canvas-nest.js/-/canvas-nest.js-2.0.3.tgz#1ee967d977a7a301b8e3eefd16702b812b8ed7f3"
+  integrity sha512-zL+AN9alP5fl/Ek2gZMpWS4Hoz5jMf1NonYPvdsU5SV++m8/b45EUnTje6GUs1998q6wGISYYRHiWho1JXGM6w==
+  dependencies:
+    size-sensor "^0.2.0"
+
 capture-exit@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npm.taobao.org/capture-exit/download/capture-exit-1.2.0.tgz#1c5fcc489fd0ab00d4f1ac7ae1072e3173fbab6f"
@@ -11592,6 +11599,11 @@ sisteransi@^0.1.1:
   resolved "https://registry.npm.taobao.org/sisteransi/download/sisteransi-0.1.1.tgz#5431447d5f7d1675aac667ccd0b865a4994cb3ce"
   integrity sha1-VDFEfV99FnWqxmfM0LhlpJlMs84=
 
+size-sensor@^0.2.0:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/size-sensor/-/size-sensor-0.2.5.tgz#e8ffb7cc5258893472bfda4f5734d66583247757"
+  integrity sha512-Rip8d6LmCHIBUY5iIS3nKln1X4bF8260oFI4suo6MX+vOV/aNpNWYKTyjamSJMbxP17qMlR0DmGXFEio3BYJUg==
+
 slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/slash/download/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
@@ -12977,6 +12989,13 @@ vue-apollo@^3.0.0-beta.11:
     chalk "^2.4.2"
     serialize-javascript "^1.7.0"
     throttle-debounce "^2.1.0"
+
+vue-canvas-nest@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vue-canvas-nest/-/vue-canvas-nest-2.0.0.tgz#427326fcb66ae7f13b515781864dc2cabee8667c"
+  integrity sha512-YUKwbDDEB36NlEvU/Et6S68LaP+RQatEQIJZuL1f0nGIp5h8r+WjsWmwAZK/pt2c7FeXvWWNmuHUcY+539EPbA==
+  dependencies:
+    canvas-nest.js "2.0.3"
 
 vue-class-component@^7.0.1, vue-class-component@^7.0.2:
   version "7.1.0"

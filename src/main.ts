@@ -7,6 +7,9 @@ import './plugins/echarts.js'
 //@ts-ignore
 import { createProvider, VueApollo, DollarApollo } from './vue-apollo'
 import _ from 'lodash'
+// self global component
+import WindowCard from './components/WindowCard.vue'
+Vue.component('window-card', WindowCard)
 
 Vue.config.productionTip = false
 Vue.prototype.$_ = _
@@ -24,5 +27,5 @@ new Vue({
   store,
   //@ts-ignore
   apolloProvider: createProvider(),
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

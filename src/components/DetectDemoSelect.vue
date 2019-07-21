@@ -1,18 +1,19 @@
 <template>
-  <div class="text-align-center">
-    <h3>Try With Demo Picture</h3>
-    <el-carousel :interval="8000" height="200px" type="card" trigger="click">
-      <el-carousel-item v-for="demoImg in demoImgList" :key="demoImg.id">
-        <div class="clickable" @click="handleSelected(demoImg.url)">
-          <el-image
-            :src="demoImg.url"
-            fit="cover"
-            alt=""
-            class="demo-show-img"
-          ></el-image>
-        </div>
-      </el-carousel-item>
-    </el-carousel>
+  <div class="demo-select text-align-center">
+    <window-card title="Try With Demo Picture">
+      <el-carousel :interval="8000" height="200px" type="card" trigger="click">
+        <el-carousel-item v-for="demoImg in demoImgList" :key="demoImg.id">
+          <div class="clickable brighten" @click="handleSelected(demoImg.url)">
+            <el-image
+              :src="demoImg.url"
+              fit="cover"
+              alt=""
+              class="demo-show-img"
+            ></el-image>
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+    </window-card>
   </div>
 </template>
 
@@ -60,5 +61,17 @@ export default class DetectDemoSelect extends Vue {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>
+
+<style lang="scss">
+.brighten {
+  img {
+    filter: brightness(90%);
+    transition: all 1s ease;
+
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
+}
+</style>

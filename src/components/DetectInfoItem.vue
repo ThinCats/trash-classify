@@ -1,18 +1,49 @@
 <template>
-  <div class="detect-info-item" :style="{ 'border-color': cardColor }">
+  <div class="detect-info-item" :style="infoItemStyle">
     <el-row type="flex" justify="space-between" align="middle">
       <el-col class="flex-col-center" :span="4">
-        <el-image :src="trashTypeImg" fit="fill" class="item-avator"></el-image>
+        <el-popover
+          placement="top-start"
+          title="可回收垃圾"
+          width="200"
+          trigger="hover"
+          content="要记得回收哦)"
+        >
+          <el-image
+            slot="reference"
+            :src="trashTypeImg"
+            fit="fill"
+            class="item-avator"
+          ></el-image>
+        </el-popover>
       </el-col>
       <el-col class="flex-col-center" :span="12">
         <el-card
           class="flex-vertical-align text-align-center info-item-text-card"
+          shadow="hover"
         >
-          <div>
-            <span class="card-trash-name">{{ trash.name }}<br /></span>
-            <span>is type of <br /></span>
-            <em class="card-trash-type">{{ trash.type.name }} </em>
-          </div>
+          <el-popover placement="left" width="200" trigger="hover">
+            <article class="trash-intro">
+              <h3 style="text-align: center">{{ trash.name }}</h3>
+              <h4>Category</h4>
+              <p>{{ trash.extraInfo.category }}</p>
+              <el-divider></el-divider>
+              <h4>About</h4>
+              <p>
+                {{ trash.extraInfo.about }}
+              </p>
+              <el-divider></el-divider>
+              <h4>Degration</h4>
+              <p>It can be degrated by {{ trash.extraInfo.degrateWay }}</p>
+            </article>
+            <div slot="reference">
+              <div class="card-trash-name" :style="{ color: cardColor }">
+                {{ trash.name }}
+              </div>
+              <div>is type of</div>
+              <em class="card-trash-type">{{ trash.type.name }} </em>
+            </div>
+          </el-popover>
         </el-card>
       </el-col>
       <el-col :span="5">
@@ -32,25 +63,31 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Trash, TrashExtraInfo, TrashType } from '@/types/graphql'
+import { color2rgba } from '@/utils/utils'
 
 @Component
 export default class DetectInfoItem extends Vue {
   // the degration time and map to month, will find the ceil of i
   static percentageConfig = [
     {
-      percentage: 20,
+      percentage: 10,
       color: '#5cb87a',
-      month: 12
+      month: 0.6
+    },
+    {
+      percentage: 20,
+      color: '#65b88a',
+      month: 2
     },
     {
       percentage: 40,
       color: '#1989fa',
-      month: 60
+      month: 6
     },
     {
       percentage: 60,
       color: '#6f7ad3',
-      month: 120
+      month: 12
     },
     {
       percentage: 80,
@@ -66,26 +103,42 @@ export default class DetectInfoItem extends Vue {
 
   static trashTypeConfig = {
     '1': {
-      imgUrl: require('@/assets/recy.jpg')
+      imgUrl: require('@/assets/recy.jpg'),
+      description: 'lake green',
+      color: '#009688'
     },
     '2': {
-      imgUrl: require('@/assets/harm.jpg')
+      imgUrl: require('@/assets/harm.jpg'),
+      description: 'pink',
+      color: '#FF4081'
     },
     '3': {
-      imgUrl: require('@/assets/household.jpg')
+      imgUrl: require('@/assets/household.jpg'),
+      description: 'orange',
+      color: '#FF7F00'
     },
     '4': {
-      imgUrl: require('@/assets/residual.jpg')
+      imgUrl: require('@/assets/residual.jpg'),
+      description: 'light blue',
+      color: '#2196F3'
     }
   }
 
-  @Prop({
-    default: 'orange'
-  })
-  private readonly cardColor!: string
-
   @Prop()
   private readonly trash!: Trash
+
+  get cardColor() {
+    //@ts-ignore
+    return DetectInfoItem.trashTypeConfig[this.trash.type.id].color
+  }
+
+  get infoItemStyle() {
+    return {
+      borderColor: this.cardColor,
+      // make it transparent
+      backgroundColor: color2rgba(this.cardColor, 0.1)
+    }
+  }
 
   get timePercentage() {
     const degrateTime = this.trash.extraInfo.degrateTime
@@ -121,10 +174,16 @@ export default class DetectInfoItem extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.trash-intro {
+  & > p {
+    word-break: normal;
+    text-align: left;
+  }
+}
 .detect-info-item {
   margin-bottom: 2rem;
   padding: 1rem;
-  border: 5px solid;
+  border: 3px solid;
   border-radius: 2rem;
 
   .info-item-text-card {
@@ -135,7 +194,7 @@ export default class DetectInfoItem extends Vue {
     }
 
     .card-trash-type {
-      color: #FF5722;
+      color: #ff5722;
     }
   }
 
@@ -152,6 +211,16 @@ export default class DetectInfoItem extends Vue {
   .el-progress__text {
     width: 5rem;
     padding: 0.625rem;
+  }
+}
+
+// change card style
+.detect-info-item {
+  .info-item-text-card {
+    &.el-card {
+      border-color: transparent;
+      background-color: transparent;
+    }
   }
 }
 </style>

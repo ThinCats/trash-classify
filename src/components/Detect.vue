@@ -1,10 +1,21 @@
 <template>
   <div class="trash-detect">
-    <div class="title">
-      <h1>Trash Detection</h1>
-      <h2>Upload your trash image</h2>
-    </div>
+    <!-- <div class="title"> -->
+    <!-- <h2>Upload your trash image</h2> -->
+    <!-- </div> -->
     <el-card>
+      <div slot="header">
+        <div class="window-bar">
+          <div class="window-buttons">
+            <div class="window-btn"></div>
+            <div class="window-btn"></div>
+            <div class="window-btn"></div>
+          </div>
+          <div class="window-title">
+            <h1>Trash Detection</h1>
+          </div>
+        </div>
+      </div>
       <detect-upload
         @upload-new-image="handleUploadNewImage"
         @recieve-upload-response="handleReciveUploadResponse"
@@ -12,17 +23,24 @@
       <el-row :gutter="20" type="flex" justify="space-between">
         <el-col class="col-center" :lg="12" :md="24" :xs="24">
           <div class="image-compare">
-            <detect-image-tagged
-              v-show="isUploaded"
-              :imageSrc="curShowImage"
-              :tagRectPosition="taggedImagePosition"
-            ></detect-image-tagged>
-            <detect-image-show
-              v-show="!isUploaded"
-              :imageSrc="curShowImage"
-            ></detect-image-show>
-            <el-divider></el-divider>
-            <detect-demo-select></detect-demo-select>
+            <div class="compare-head">
+              <detect-image-tagged
+                v-show="isUploaded"
+                :imageSrc="curShowImage"
+                :tagRectPosition="taggedImagePosition"
+              ></detect-image-tagged>
+              <detect-image-show
+                v-show="!isUploaded"
+                :imageSrc="curShowImage"
+              ></detect-image-show>
+            </div>
+            <div class="compare-middle">
+              <detect-type-show></detect-type-show>
+            </div>
+            <div class="compare-foot">
+              <el-divider></el-divider>
+              <detect-demo-select></detect-demo-select>
+            </div>
           </div>
         </el-col>
         <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
@@ -45,6 +63,7 @@ import DetectDemoSelect from '@/components/DetectDemoSelect.vue'
 import ArticleDaily from '@/components/ArticleDaily.vue'
 import DetectImageShow from '@/components/DetectImageShow.vue'
 import DetectImageTagged from '@/components/DetectImageTagged.vue'
+import DetectTypeShow from '@/components/DetectTypeShow.vue'
 
 import {
   UploadImageResponse,
@@ -59,7 +78,8 @@ import {
     DetectDemoSelect,
     DetectImageShow,
     DetectImageTagged,
-    ArticleDaily
+    ArticleDaily,
+    DetectTypeShow
   }
 })
 export default class Detect extends Vue {
@@ -98,15 +118,62 @@ export default class Detect extends Vue {
 <style scoped lang="scss">
 .image-compare {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .compare-head {
+    flex-grow: 1;
+  }
 }
 
 .trash-detect {
   width: 80vw;
   margin: 0 auto;
+  margin-top: 2rem;
 }
 
 .title {
   text-align: center;
   padding-bottom: 1em;
+}
+
+$btn-size: 1.2rem;
+.window-bar {
+  h1 {
+    font-size: $btn-size;
+    margin: 0;
+  }
+  text-align: center;
+  padding: 0 0.4rem;
+  .window-buttons {
+    position: absolute;
+    display: flex;
+    .window-btn {
+      width: $btn-size;
+      height: $btn-size;
+      border-radius: 50%;
+      margin-right: 0.8rem;
+
+      &:nth-child(1) {
+        background-color: #f46067;
+      }
+      &:nth-child(2) {
+        background-color: #fdc141;
+      }
+      &:nth-child(3) {
+        background-color: #35c24b;
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.trash-detect {
+  .el-card__header {
+    border-color: transparent;
+  }
 }
 </style>

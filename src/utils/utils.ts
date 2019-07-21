@@ -105,3 +105,26 @@ export function uniqueObjArray<T>(arr: T[], key: string): T[] {
 
   return Array.from(objMap.values())
 }
+
+export function hex2rgba(hex: string, alpha = 1) {
+  //@ts-ignore
+  const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16))
+  return `rgba(${r},${g},${b},${alpha})`
+}
+
+// convert rgb(1,1,1) or rgba(1,1,1,1) to rgba(1,1,1,alpha)
+export function rgb2rgba(rgb: string, alpha = 1) {
+  //@ts-ignore
+  const [r, g, b] = rgb.match(/\d+/g).map(x => parseInt(x, 10))
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
+}
+
+export function color2rgba(color: string, alpha = 1) {
+  if (color.startsWith('rgb')) {
+    return rgb2rgba(color, alpha)
+  } else if (color.startsWith('#')) {
+    return hex2rgba(color, alpha)
+  } else {
+    throw `Color type error ${color}`
+  }
+}

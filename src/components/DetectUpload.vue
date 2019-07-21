@@ -159,20 +159,22 @@ export default class DetectUpload extends Vue {
    * @param {File} image - graphql's param, if set imgURL, file should be null
    */
   private uploadByFile(image: File) {
-    this.$apollo
-      .mutate({
-        mutation: require('@/graphql/uploadImageByFile.gql'),
-        variables: {
-          image
-        },
-        context: {
-          hasUpload: true
-        }
-      })
-      .then((response: any) => {
-        this.handleRecieveUploadResponse(response.data.uploadImageByFile)
-      })
-      .catch(this.handleApolloError)
+    this.$_.debounce(() => {
+      this.$apollo
+        .mutate({
+          mutation: require('@/graphql/uploadImageByFile.gql'),
+          variables: {
+            image
+          },
+          context: {
+            hasUpload: true
+          }
+        })
+        .then((response: any) => {
+          this.handleRecieveUploadResponse(response.data.uploadImageByFile)
+        })
+        .catch(this.handleApolloError)
+    }, 1000)()
   }
 
   /**
@@ -185,17 +187,19 @@ export default class DetectUpload extends Vue {
    * @param {imgURL} imgURL - imgURL to send
    */
   private uploadByURL(imgURL: string) {
-    this.$apollo
-      .mutate({
-        mutation: require('@/graphql/uploadImageByURL.gql'),
-        variables: {
-          imgURL
-        }
-      })
-      .then((response: any) => {
-        this.handleRecieveUploadResponse(response.data.uploadImageByURL)
-      })
-      .catch(this.handleApolloError)
+    this.$_.debounce(() => {
+      this.$apollo
+        .mutate({
+          mutation: require('@/graphql/uploadImageByURL.gql'),
+          variables: {
+            imgURL
+          }
+        })
+        .then((response: any) => {
+          this.handleRecieveUploadResponse(response.data.uploadImageByURL)
+        })
+        .catch(this.handleApolloError)
+    }, 1000)()
   }
 
   // form submit

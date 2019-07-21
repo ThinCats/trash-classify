@@ -1,12 +1,17 @@
 <template>
   <div class="detect-info-charts">
-    <!-- Only render the component if has result, to avoid e-charts failed -->
-    <v-chart
-      v-if="dataShowList.length > 0"
-      class="score-charts"
-      :options="options"
-      autoresize
-    ></v-chart>
+    <window-card
+      title="Result of Object Detection"
+      :bodyStyle="{ height: '320px' }"
+    >
+      <!-- Only render the component if has result, to avoid e-charts failed -->
+      <v-chart
+        v-if="dataShowList.length > 0"
+        class="score-charts"
+        :options="options"
+        autoresize
+      ></v-chart>
+    </window-card>
   </div>
 </template>
 
@@ -38,8 +43,8 @@ export default class DetectInfoCharts extends Vue {
     })
     return this.dataShowList.map(value => {
       return {
-        // name: value.keyword.substring(0, 5),
-        name: value.keyword,
+        name: value.keyword.substring(0, 5),
+        // name: value.keyword,
         max: maxVal
       }
     })
@@ -77,14 +82,14 @@ export default class DetectInfoCharts extends Vue {
       name: {
         textStyle: {
           color: '#fff',
-          fontSize: '18',
+          fontSize: '16',
           backgroundColor: '#999',
           borderRadius: 3,
           padding: [3, 5]
         }
       },
       indicator: this.radarIndicator,
-      radius: 60
+      radius: 80
     },
     series: [
       // radar
@@ -108,7 +113,12 @@ export default class DetectInfoCharts extends Vue {
 <style scoped lang="scss">
 .detect-info-charts {
   width: 100%;
-  height: 200px;
+  height: 100%;
+
+  h3 {
+    margin: 0;
+    text-align: center;
+  }
 }
 
 .echarts {

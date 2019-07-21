@@ -1,0 +1,6 @@
+query article {
+  dailyArticle {
+    id
+    article
+  }
+}
