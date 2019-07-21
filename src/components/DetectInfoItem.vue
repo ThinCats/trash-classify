@@ -4,14 +4,14 @@
       <el-col class="flex-col-center" :span="4">
         <el-popover
           placement="top-start"
-          title="可回收垃圾"
+          :title="trash.type.name"
           width="200"
           trigger="hover"
-          content="要记得回收哦)"
+          :content="trashConfig.tip"
         >
           <el-image
             slot="reference"
-            :src="trashTypeImg"
+            :src="trashConfig.imgUrl"
             fit="fill"
             class="item-avator"
           ></el-image>
@@ -22,7 +22,7 @@
           class="flex-vertical-align text-align-center info-item-text-card"
           shadow="hover"
         >
-          <el-popover placement="left" width="200" trigger="hover">
+          <el-popover placement="right" width="200" trigger="hover">
             <article class="trash-intro">
               <h3 style="text-align: center">{{ trash.name }}</h3>
               <h4>Category</h4>
@@ -37,11 +37,15 @@
               <p>It can be degrated by {{ trash.extraInfo.degrateWay }}</p>
             </article>
             <div slot="reference">
-              <div class="card-trash-name" :style="{ color: cardColor }">
+              <div
+                class="card-trash-name"
+                :style="{ color: trashConfig.color }"
+              >
                 {{ trash.name }}
               </div>
-              <div>is type of</div>
+              <div>is</div>
               <em class="card-trash-type">{{ trash.type.name }} </em>
+
             </div>
           </el-popover>
         </el-card>
@@ -65,78 +69,103 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Trash, TrashExtraInfo, TrashType } from '@/types/graphql'
 import { color2rgba } from '@/utils/utils'
 
+interface TrashTypeConfig {
+  imgUrl: string
+  description: string
+  color: string
+  tip: string
+}
+
 @Component
 export default class DetectInfoItem extends Vue {
   // the degration time and map to month, will find the ceil of i
   static percentageConfig = [
+    {
+      percentage: 5,
+      color: '#5cb87a',
+      month: 0.3
+    },
     {
       percentage: 10,
       color: '#5cb87a',
       month: 0.6
     },
     {
+      percentage: 15,
+      color: '#65b88a',
+      month: 3
+    },
+    {
       percentage: 20,
       color: '#65b88a',
-      month: 2
+      month: 6
+    },
+    {
+      percentage: 25,
+      color: '#1989fa',
+      month: 12
     },
     {
       percentage: 40,
       color: '#1989fa',
-      month: 6
+      month: 110
     },
     {
       percentage: 60,
       color: '#6f7ad3',
-      month: 12
+      month: 470
     },
     {
       percentage: 80,
       color: '#e6a23c',
-      month: 600
+      month: 1200
     },
     {
       percentage: 100,
       color: '#f56c6c',
-      month: 1200
+      month: 2400
     }
   ]
 
-  static trashTypeConfig = {
+  static trashTypeConfigs: Record<string, TrashTypeConfig> = {
     '1': {
       imgUrl: require('@/assets/recy.jpg'),
       description: 'lake green',
-      color: '#009688'
+      color: '#009688',
+      tip: 'If you sell it, you can buy a pig. ヽ(✿ﾟ▽ﾟ)ノ'
     },
     '2': {
       imgUrl: require('@/assets/harm.jpg'),
       description: 'pink',
-      color: '#FF4081'
+      color: '#FF4081',
+      tip: 'Unfortunately, pigs will die if they eat. Σ( ° △ °|||)︴'
     },
     '3': {
       imgUrl: require('@/assets/household.jpg'),
       description: 'orange',
-      color: '#FF7F00'
+      color: '#FF7F00',
+      tip: 'The more pigs eat, the fatter they become. ︿(￣︶￣)︿'
     },
     '4': {
       imgUrl: require('@/assets/residual.jpg'),
       description: 'light blue',
-      color: '#2196F3'
+      color: '#2196F3',
+      tip: "Pigs won't eat them... (￣_,￣ )"
     }
   }
 
   @Prop()
   private readonly trash!: Trash
 
-  get cardColor() {
+  get trashConfig() {
     //@ts-ignore
-    return DetectInfoItem.trashTypeConfig[this.trash.type.id].color
+    return DetectInfoItem.trashTypeConfigs[this.trash.type.id]
   }
-
   get infoItemStyle() {
     return {
-      borderColor: this.cardColor,
+      borderColor: this.trashConfig.color,
       // make it transparent
-      backgroundColor: color2rgba(this.cardColor, 0.1)
+      backgroundColor: color2rgba(this.trashConfig.color, 0.1)
     }
   }
 
@@ -163,12 +192,6 @@ export default class DetectInfoItem extends Vue {
     ${this.trash.extraInfo.degrateTime}
     months`
   }
-
-  get trashTypeImg() {
-    //@ts-ignore
-    let config = DetectInfoItem.trashTypeConfig[this.trash.type.id]
-    return config.imgUrl
-  }
 }
 </script>
 
@@ -185,6 +208,10 @@ export default class DetectInfoItem extends Vue {
   padding: 1rem;
   border: 3px solid;
   border-radius: 2rem;
+
+  .see-more {
+    text-style: italic;
+  }
 
   .info-item-text-card {
     width: 100%;
