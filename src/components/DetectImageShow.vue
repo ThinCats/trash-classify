@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-card>
+    <window-card>
       <img
         :src="imageSrc"
         alt=""
         :style="{ minWidth: '100%', maxWidth: '100%', minHeight: '200px' }"
       />
-    </el-card>
+    </window-card>
   </div>
 </template>
 

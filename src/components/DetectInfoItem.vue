@@ -201,6 +201,7 @@ export default class DetectInfoItem extends Vue {
   .item-avator {
     width: 5rem;
     height: 5rem;
+    border-radius: 1rem;
     // border-radius: 50%;
   }
 }

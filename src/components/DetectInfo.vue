@@ -2,7 +2,7 @@
   <div class="detect-info">
     <!-- <div class="tagged-card-head"></div> -->
     <div class="trash-info-list">
-      <window-card title="The List Of Trash">
+      <window-card title="The List Of the Trash">
         <div class="info-list-card-body">
           <ApolloQuery
             :query="require('../graphql/trashList.gql')"

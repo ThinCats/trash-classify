@@ -22,8 +22,8 @@
     </el-row>
     <br />
     <el-row :gutter="10" type="flex" justify="center">
-      <el-button type="info" @click="onStart">Start</el-button>
-      <el-button type="success" @click="onStop">Stop</el-button>
+      <!-- <el-button type="info" @click="onStart">Start</el-button> -->
+      <!-- <el-button type="success" @click="onStop">Stop</el-button> -->
       <el-button type="primary" @click="onCapture">Capture</el-button>
       <el-button type="danger" @click="onTakeThis">Take This!</el-button>
       <el-button type="info" @click="onCloseMe">Close</el-button>
@@ -84,13 +84,6 @@ export default {
   methods: {
     onCapture() {
       this.img = this.$refs.webcam.capture()
-      console.log(this.img)
-    },
-    onStarted(stream) {
-      console.log('On Started Event', stream)
-    },
-    onStopped(stream) {
-      console.log('On Stopped Event', stream)
     },
     onStop() {
       this.$refs.webcam.stop()
@@ -103,12 +96,10 @@ export default {
     },
     onCameras(cameras) {
       this.devices = cameras
-      console.log('On Cameras Event', cameras)
     },
     onCameraChange(deviceId) {
       this.deviceId = deviceId
       this.camera = deviceId
-      console.log('On Camera Change Event', deviceId)
     },
     onTakeThis() {
       this.$emit('captured-image', this.img)

@@ -3,7 +3,7 @@
     <!-- <div class="title"> -->
     <!-- <h2>Upload your trash image</h2> -->
     <!-- </div> -->
-    <el-card>
+    <el-card class="trash-detect-card">
       <div slot="header">
         <div class="window-bar">
           <div class="window-buttons">
@@ -12,7 +12,7 @@
             <div class="window-btn"></div>
           </div>
           <div class="window-title">
-            <h1>Trash Detection</h1>
+            <h1>Trash Classification Of Life</h1>
           </div>
         </div>
       </div>
@@ -174,6 +174,18 @@ $btn-size: 1.2rem;
 .trash-detect {
   .el-card__header {
     border-color: transparent;
+  }
+  .trash-detect-card {
+    &.el-card {
+      background-image: radial-gradient(
+        circle 328px at 2.9% 0%,
+        rgba(191, 224, 251, 1) 0%,
+        rgba(232, 233, 251, 1) 25.8%,
+        rgba(252, 239, 250, 1) 50.8%,
+        rgba(234, 251, 251, 1) 77.6%,
+        rgb(255, 253, 247) 100.7%
+      );
+    }
   }
 }
 </style>

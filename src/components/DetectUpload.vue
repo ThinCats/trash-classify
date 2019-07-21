@@ -20,8 +20,8 @@
           type="danger"
           :disabled="!trashFormData.imgURL"
           @click="submitTrashForm(trashFormData)"
-          >Submit</el-button
-        >
+          >Submit <i class="el-icon-upload"></i>
+        </el-button>
         <el-divider direction="vertical"></el-divider>
       </el-form-item>
       <el-form-item label="or ">
@@ -40,8 +40,8 @@
           :auto-upload="true"
         >
           <el-button size="medium" slot="trigger" type="primary"
-            >Select</el-button
-          >
+            >Select <i class="el-icon-picture"></i>
+          </el-button>
         </el-upload>
       </el-form-item>
       <el-form-item label=" | ">
@@ -289,3 +289,11 @@ export default class DetectUpload extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss"></style>
+
+<style lang="scss">
+.detect-upload {
+  .el-input__inner {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+</style>

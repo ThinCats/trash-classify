@@ -48,7 +48,8 @@ h3 {
   padding: 1rem 0 2rem;
   // background-color: rgba(115, 228, 208, 0.3);
 
-  background: linear-gradient(90deg, white 20px, transparent 1%) center, linear-gradient(white 20px, transparent 1%) center, #008080;
+  background: linear-gradient(90deg, white 20px, transparent 1%) center,
+    linear-gradient(white 20px, transparent 1%) center, #008080;
   background-size: 22px 22px;
 }
 </style>

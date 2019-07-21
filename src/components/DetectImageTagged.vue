@@ -1,12 +1,11 @@
 <template>
   <div class="detect-image-tagged">
-    <!-- <div class="tagged-card-head"></div> -->
-    <el-card>
+    <window-card>
       <div class="img-container">
         <div class="detect-rect" v-bind:style="tagRectStyle"></div>
         <img :src="imageSrc" id="taggedImage" ref="curImageRef" />
       </div>
-    </el-card>
+    </window-card>
     <!-- For original image size obtain -->
     <img
       v-show="false"
@@ -89,16 +88,5 @@ export default class DetectTaggedImage extends Vue {
   img {
     max-width: 100%;
   }
-}
-.tagged-card-head {
-  position: relative;
-  box-sizing: border-box;
-  width: 360px;
-  height: 180px;
-  overflow: hidden;
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  text-align: center;
-  background-color: #fff;
 }
 </style>

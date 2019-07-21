@@ -1,8 +1,9 @@
 <template>
   <div class="detect-info-charts">
     <window-card
-      title="Result of Object Detection"
+      title="Result Of the Object Detection"
       :bodyStyle="{ height: '320px' }"
+      icon="el-icon-data-line"
     >
       <!-- Only render the component if has result, to avoid e-charts failed -->
       <v-chart

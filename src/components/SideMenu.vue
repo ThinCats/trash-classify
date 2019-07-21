@@ -5,11 +5,7 @@
         <i class="el-icon-s-operation"></i>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>1</el-dropdown-item>
-        <el-dropdown-item>2</el-dropdown-item>
-        <el-dropdown-item>3</el-dropdown-item>
-        <el-dropdown-item disabled>4</el-dropdown-item>
-        <el-dropdown-item divided>5</el-dropdown-item>
+        <el-dropdown-item disabled>We are still developing :)</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>

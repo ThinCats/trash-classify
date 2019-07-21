@@ -1,6 +1,9 @@
 <template>
   <div class="demo-select text-align-center">
-    <window-card title="Try With Demo Picture">
+    <window-card
+      title="Play With Demo Pictures"
+      icon="el-icon-shopping-cart-full"
+    >
       <el-carousel :interval="8000" height="200px" type="card" trigger="click">
         <el-carousel-item v-for="demoImg in demoImgList" :key="demoImg.id">
           <div class="clickable brighten" @click="handleSelected(demoImg.url)">

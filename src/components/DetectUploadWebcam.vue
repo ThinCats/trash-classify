@@ -1,8 +1,8 @@
 <template>
   <div class="upload-webcam">
     <el-button type="text" @click="dialogTableVisible = true"
-      >Use Camera</el-button
-    >
+      >Use Camera <i class="el-icon-camera"></i
+    ></el-button>
 
     <el-dialog
       title="Camera"
@@ -40,4 +40,3 @@ export default class DetectUploadWebcam extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss"></style>
-

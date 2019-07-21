@@ -1,6 +1,6 @@
 <template>
   <div class="detect-type-show">
-    <window-card title="All Type Of Trash">
+    <window-card title="All Types Of the Trash" icon="el-icon-delete">
       <div class="type-images">
         <el-popover
           v-for="config in trashTypeConfigs"
