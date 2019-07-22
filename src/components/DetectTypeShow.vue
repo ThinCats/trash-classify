@@ -92,8 +92,13 @@ export default class DetectTypeShow extends Vue {
 .type-images {
   display: flex;
   justify-content: space-around;
+  & > span {
+    display: flex;
+    justify-content: center;
+  }
   img {
-    width: 7rem;
+    width: 80%;
+    border-radius: 1rem;
     transition: all 0.5s ease;
 
     &:hover {

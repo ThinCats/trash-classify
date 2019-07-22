@@ -49,14 +49,13 @@
           </el-popover>
         </el-card>
       </el-col>
-      <el-col :span="5">
+      <el-col :span="6">
         <el-progress
           type="circle"
           class="info-item-time-progress"
           :percentage="timePercentage"
           :format="timeFormat"
           :color="timePercentageColors"
-          :width="100"
         ></el-progress>
       </el-col>
     </el-row>
@@ -225,8 +224,8 @@ export default class DetectInfoItem extends Vue {
   }
 
   .item-avator {
-    width: 5rem;
-    height: 5rem;
+    width: 100%;
+    height: 100%;
     border-radius: 1rem;
     // border-radius: 50%;
   }
@@ -235,11 +234,12 @@ export default class DetectInfoItem extends Vue {
 
 <style lang="scss">
 .info-item-time-progress {
-  & > .el-progress_circle {
-    .el-progress__text {
-      width: 5rem;
-      padding: 0.625rem;
-    }
+  & > .el-progress-circle {
+    width: 100%;
+  }
+  .el-progress__text {
+    width: 5rem;
+    padding: 0.625rem;
   }
 }
 
