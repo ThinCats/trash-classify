@@ -37,12 +37,17 @@ export default class ImageClassifyAPI extends RESTDataSource {
     if (typeof response.error_code === 'undefined') {
       return
     }
-
+    console.error(response.error_msg)
     // check error
     if (response.error_code === 18)
       throw new Errors.ImageClassifyAPILimitedError()
     else if (response.error_code === 216201)
       throw new Errors.UploadImageTypeError()
+    else if (response.error_code === 110) {
+      throw new Errors.ImageClassifyAPIError()
+    } else {
+      throw response.error_msg
+    }
   }
 
   async postAPI(api_uri, option) {
