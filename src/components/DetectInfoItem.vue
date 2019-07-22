@@ -56,6 +56,7 @@
           :percentage="timePercentage"
           :format="timeFormat"
           :color="timePercentageColors"
+          :width="100"
         ></el-progress>
       </el-col>
     </el-row>
@@ -233,12 +234,10 @@ export default class DetectInfoItem extends Vue {
 </style>
 
 <style lang="scss">
-.info-item-time-progress {
-  & > .el-progress-circle {
-    width: 100%;
-  }
-  .el-progress__text {
-    width: 5rem;
+.info-item-time-progress.el-progress--circle {
+  & > .el-progress__text {
+    font-size: 0.6rem;
+    width: 80%;
     padding: 0.625rem;
   }
 }
