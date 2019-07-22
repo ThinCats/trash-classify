@@ -61,7 +61,7 @@ const defaultOptions = {
 }
 
 // Call this in the Vue app file
-export function createProvider(options = {}) {
+export function createProvider(options = {}, vue_errorHandler) {
   // Create apollo client
   const { apolloClient, wsClient } = createApolloClient({
     ...defaultOptions,
@@ -74,7 +74,7 @@ export function createProvider(options = {}) {
     defaultClient: apolloClient,
     defaultOptions: {
       $query: {
-        // fetchPolicy: 'cache-and-network',
+        fetchPolicy: 'cache-and-network'
       }
     },
     errorHandler(error) {
@@ -84,6 +84,7 @@ export function createProvider(options = {}) {
         'background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;',
         error.message
       )
+      vue_errorHandler(error)
     }
   })
 

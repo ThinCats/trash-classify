@@ -30,7 +30,7 @@
           :show-file-list="false"
           action="#"
           :limit="1"
-          accept="image/png,image/bmp,image/jpg,image/jpeg"
+          accept="image/png,image/jpg,image/jpeg"
           :before-upload="beforeUpload"
           :on-exceed="handleFileExceed"
           :on-success="handleFileSuccess"
@@ -97,7 +97,7 @@ export default class DetectUpload extends Vue {
   }
   mounted() {
     eventBus.$on('detect-demo-selected', (imgURL: string) => {
-      this.submitByImgURL(imgURL)
+      this.submitByUrlOrBase64(imgURL)
     })
   }
   @Emit('upload-new-image')
@@ -120,8 +120,10 @@ export default class DetectUpload extends Vue {
     value: string,
     callback: CallableFunction
   ) {
-    if (!value.startsWith('http')) {
-      callback(new Error('URL must start with http or https'))
+    if (
+      !(value.startsWith('http') || value.startsWith('data:image/jpeg;base64'))
+    ) {
+      callback(new Error('URL must start with http(s) or data:'))
     } else {
       callback()
     }
@@ -142,13 +144,6 @@ export default class DetectUpload extends Vue {
   private setUploading() {}
   // set the status to uploaded
   private setUploaded() {}
-
-  private submitByImgURL(imgURL: string) {
-    this.setUploading()
-    this.setCurImageURL(imgURL)
-    this.handleUploadNewImage(imgURL)
-    this.uploadByURL(imgURL)
-  }
 
   async uploadElFile(option: HttpRequestOptions) {
     //@ts-ignore
@@ -219,7 +214,7 @@ export default class DetectUpload extends Vue {
         return true
       }
     })
-    this.submitByImgURL(formData.imgURL)
+    this.submitByUrlOrBase64(formData.imgURL)
   }
 
   private submitBase64Data(imgBase64URL: string) {
@@ -230,6 +225,23 @@ export default class DetectUpload extends Vue {
       let file = new File([blob], 'spanshot.jpg', { lastModified: Date.now() })
       this.uploadByFile(file)
     })
+  }
+
+  private submitByImgURL(imgURL: string) {
+    this.setUploading()
+    this.setCurImageURL(imgURL)
+    this.handleUploadNewImage(imgURL)
+    this.uploadByURL(imgURL)
+  }
+
+  private submitByUrlOrBase64(url: string) {
+    // normal image url
+    if (url.startsWith('http')) {
+      this.submitByImgURL(url)
+    } else {
+      // base64
+      this.submitBase64Data(url)
+    }
   }
 
   private handleFileError() {
