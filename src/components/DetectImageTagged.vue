@@ -86,7 +86,9 @@ export default class DetectTaggedImage extends Vue {
   }
 
   img {
+    min-width: 100%;
     max-width: 100%;
+    min-height: 200px;
   }
 }
 </style>

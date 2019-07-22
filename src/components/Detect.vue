@@ -45,7 +45,8 @@
         </el-col>
         <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
           <detect-info
-            v-if="isUploaded || !showDailyArticle"
+            v-if="isUploading || isUploaded || !showDailyArticle"
+            v-loading="isUploading"
             :detectedObjectList="taggedImageResult"
           ></detect-info>
           <article-daily v-else></article-daily>
@@ -85,6 +86,8 @@ import {
 export default class Detect extends Vue {
   private isUploaded: boolean = false
   private showDailyArticle: boolean = true
+  // whether file is uploading
+  private isUploading: boolean = false
 
   // current showing image, url
   private curShowImage: string = ''
@@ -103,6 +106,7 @@ export default class Detect extends Vue {
   private handleUploadNewImage(imgUrl: string) {
     this.curShowImage = imgUrl
     this.isUploaded = false
+    this.isUploading = true
   }
 
   private handleReciveUploadResponse(response: UploadImageResponse) {
@@ -110,6 +114,7 @@ export default class Detect extends Vue {
     this.taggedImagePosition = response.taggedImagePosition
     this.showDailyArticle = false
     this.isUploaded = true
+    this.isUploading = false
   }
 }
 </script>
@@ -182,7 +187,6 @@ $btn-size: 1.2rem;
         rgba(191, 224, 251, 1) 0%,
         rgba(232, 233, 251, 1) 25.8%,
         rgba(252, 239, 250, 1) 50.8%,
-        rgba(234, 251, 251, 1) 77.6%,
         rgb(255, 253, 247) 100.7%
       );
     }

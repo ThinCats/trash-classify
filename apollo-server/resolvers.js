@@ -11,10 +11,7 @@ export default {
       let trashList = await dataSources.trashAPI.getTrashByNameList(
         trashNameList
       )
-      // no trash
-      if (trashList.length === 0) {
-        throw new Errors.TrashNotFoundError()
-      }
+      // no trash will just return []
       return trashList
     },
     trash: async (_, { name: { keyword, root } }, { dataSources }) => {

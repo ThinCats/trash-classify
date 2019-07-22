@@ -12,20 +12,31 @@
             :variables="{ trashQueryList }"
             v-slot="{ result: { loading, error, data } }"
             @result="handleRecieveResult"
+            style="height: 80%;"
           >
             <div v-if="error" class="error apollo">
               {{ errorMsg }}
             </div>
-            <div v-else-if="data" v-loading="loading" class="result apollo">
+            <div
+              v-else-if="data"
+              v-loading="loading"
+              class="result apollo"
+              style="height: 100%;"
+            >
+              <!-- no results have been found -->
+              <app-not-found
+                v-if="pagedTrashList.length == 0"
+                content="Sorry, we can't find the trash :("
+              ></app-not-found>
               <div v-for="trash in pagedTrashList" :key="trash.id">
                 <detect-info-item :trash="trash"></detect-info-item>
               </div>
             </div>
-            <div v-else class="no-result apollo">no result</div>
+            <!-- <div v-else class="no-result apollo">no result</div> -->
           </ApolloQuery>
           <div class="flex-col-center info-list-page">
             <el-pagination
-              :hide-on-single-page="false"
+              :hide-on-single-page="true"
               :total="uniqueTrashList.length"
               :page-size="pageSize"
               :current-page.sync="curPage"
@@ -49,6 +60,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import DetectRate from '@/components/DetectRate.vue'
 import DetectInfoItem from '@/components/DetectInfoItem.vue'
 import DetectInfoCharts from '@/components/DetectInfoCharts.vue'
+import AppNotFound from '@/components/AppNotFound.vue'
 
 import * as utils from '@/utils/utils'
 import { isThis } from '@/types/Errors'
@@ -67,7 +79,8 @@ interface DetectedObject {
   components: {
     DetectRate,
     DetectInfoItem,
-    DetectInfoCharts
+    DetectInfoCharts,
+    AppNotFound
   }
 })
 export default class TrashDetectInfo extends Vue {

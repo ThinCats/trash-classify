@@ -17,6 +17,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     apolloProvider: VueApollo
     $message: CallableFunction
+    $notify: CallableFunction
     $apollo: DollarApollo<any>
     $_: typeof _
   }

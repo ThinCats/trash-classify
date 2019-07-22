@@ -30,7 +30,6 @@ export default class ArticleDaily extends Vue {}
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Work+Sans|Yatra+One&display=swap');
 // $bg-img: 'https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
 $bg-img: 'https://images.pexels.com/photos/1252869/pexels-photo-1252869.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
