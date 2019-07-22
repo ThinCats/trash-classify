@@ -1,8 +1,11 @@
 import { db } from './utils/db'
 import { BaiduAccessToken } from '../secret/baidu'
-import NodeCache from 'node-cache'
+import LRU from 'lru-cache'
 
-const nodeCache = new NodeCache({ stdTTL: 6000, checkperiod: 6010 })
+const lruCache = new LRU({
+  max: 1000
+})
+
 // Context passed to all resolvers (third argument)
 // req => Query
 // connection => Subscription
@@ -12,6 +15,6 @@ export default ({ req, connection }) => {
     db,
     api_token: BaiduAccessToken,
     // simple cache
-    cache: nodeCache
+    cache: lruCache
   }
 }

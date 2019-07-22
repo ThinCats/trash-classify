@@ -1,6 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import querystring from 'querystring'
-import * as Errors from '../Errors.ts'
+import * as Errors from '../Errors'
 
 export default class ImageClassifyAPI extends RESTDataSource {
   constructor() {

@@ -1,4 +1,5 @@
 const request = require('request')
+
 /**
  *
  * @param stream - the stream to read files

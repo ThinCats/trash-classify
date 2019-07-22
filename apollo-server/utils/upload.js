@@ -1,5 +1,6 @@
 import * as utils from './utils'
-import * as Errors from '../Errors.ts'
+import * as Errors from '../Errors'
+const crypto = require('crypto')
 
 export function checkImageMimetype(mimetype) {
   return utils.checkMimeType(mimetype, [
@@ -20,15 +21,19 @@ export function withBase64Stream(stream) {
   return utils.withBase64Stream(stream, checkFileSize)
 }
 
+export function getStrHash(data) {
+  return crypto
+    .createHash('md5')
+    .update(data)
+    .digest('hex')
+}
+
 export function loadFromCache(cache, url) {
   let res = cache.get(url)
   return res
 }
 
 export function saveToCache(cache, url, uploadImageRes) {
-  let success = cache.set(url, uploadImageRes)
-  if (!success) {
-    console.log('Warning: save url to cache failed')
-  }
+  cache.set(url, uploadImageRes)
   return uploadImageRes
 }

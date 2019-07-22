@@ -1,0 +1,13 @@
+{
+  "name": "tracol-server",
+  "version": "1.0.0",
+  "description": "the graphql backend for application tracol",
+  "main": "index.js",
+  "author": "thincats",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "lru-cache": "^5.1.1",
+    "vue-cli-plugin-apollo": "^0.21.0"
+  }
+}

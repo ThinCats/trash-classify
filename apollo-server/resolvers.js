@@ -1,9 +1,31 @@
-import shortid from 'shortid'
 import * as utils from './utils/utils.js'
 import * as uploadUtil from './utils/upload.js'
 import request from 'request'
 
-import * as Errors from './Errors.ts'
+import * as Errors from './Errors'
+
+/**
+ * use hash(base64) and the load from cache, if miss, query the api to find, and save to cache
+ * @param {string} imgBase64 - the base64 data to query from api, or save to cache
+ * @param {*} context - from resolver function
+ * @return {} response
+ */
+async function getImageResponseWithCache(imgBase64, { cache, api }) {
+  const imgHash = uploadUtil.getStrHash(imgBase64)
+
+  // load from cache
+  let response = uploadUtil.loadFromCache(cache, imgHash)
+  if (typeof response !== 'undefined') {
+    return response
+  }
+
+  // query from api
+  response = await api.getUploadImageResponse(imgBase64)
+
+  // save to cache
+  uploadUtil.saveToCache(cache, imgHash, response)
+  return response
+}
 
 export default {
   Query: {
@@ -23,7 +45,7 @@ export default {
   },
 
   Mutation: {
-    uploadImageByFile: async (parent, { imgFile }, { dataSources }) => {
+    uploadImageByFile: async (parent, { imgFile }, { dataSources, cache }) => {
       let { createReadStream, filename, mimetype } = await imgFile
       // not image
       if (!uploadUtil.checkImageMimetype(mimetype)) {
@@ -31,16 +53,13 @@ export default {
       }
 
       let imgBase64 = await uploadUtil.withBase64Stream(createReadStream())
-      return dataSources.imageClassifyAPI.getUploadImageResponse(imgBase64)
+      return getImageResponseWithCache(imgBase64, {
+        cache,
+        api: dataSources.imageClassifyAPI
+      })
     },
 
     uploadImageByURL: async (parent, { imgURL }, { dataSources, cache }) => {
-      // load from cache
-      let response = uploadUtil.loadFromCache(cache, imgURL)
-      if (typeof response !== 'undefined') {
-        return response
-      }
-
       let header = await utils.getHeaderFromUrl(imgURL).catch(err => {
         throw new Errors.UploadImageURLError()
       })
@@ -54,13 +73,10 @@ export default {
 
       let stream = request(imgURL)
       let imgBase64 = await uploadUtil.withBase64Stream(stream)
-      response = await dataSources.imageClassifyAPI.getUploadImageResponse(
-        imgBase64
-      )
-
-      // save to cache
-      uploadUtil.saveToCache(cache, imgURL, response)
-      return response
+      return getImageResponseWithCache(imgBase64, {
+        cache,
+        api: dataSources.imageClassifyAPI
+      })
     },
 
     uploadImage: async (parent, { imgFile }) => {
