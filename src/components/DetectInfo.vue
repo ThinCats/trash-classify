@@ -113,8 +113,10 @@ export default class TrashDetectInfo extends Vue {
   }
 
   private handleRecieveResult(result: any) {
-    this.curPage = 1
-    this.trashList = result.data.trashList
+    if (result.data && result.data.trashList) {
+      this.curPage = 1
+      this.trashList = result.data.trashList
+    }
   }
 
   private trashRate: number = 0
