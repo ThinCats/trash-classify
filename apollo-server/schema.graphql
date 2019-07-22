@@ -1,60 +1,94 @@
-"Included scalars"
-scalar JSON
+directive @cacheControl(
+  maxAge: Int
+) on OBJECT | FIELD_DEFINITION
+
 scalar Upload
-
-"It will increment!"
-type Counter {
-  "Number of increments"
-  count: Int!
-  "Full message for testing"
-  countStr: String
+schema {
+  query: Query
+  mutation: Mutation
 }
 
-"A text message send by users"
-type Message {
-  id: ID!
-  "Message content"
-  text: String!
+input TrashQueryArg {
+  keyword: String!
+  root: String!
 }
-
-"Input from user to create a message"
-input MessageInput {
-  "Message content"
-  text: String!
-}
-
-type File {
-  id: ID!
-  path: String!
-  filename: String!
-  mimetype: String!
-  encoding: String!
-}
-
 
 type Query {
-  "Test query with a parameter"
-  hello(name: String): String!
-  "List of messages sent by users"
-  messages: [Message]
-  uploads: [File]
+  errors: [PropheticError!]!
+  trash(name: TrashQueryArg!): Trash
+  trashList(trashNameList: [TrashQueryArg!]!): [Trash!]!
+  dailyArticle: DailyArticle!
+}
 
+type Trash @cacheControl(maxAge: 3600) {
+  type: TrashType!
+  name: String! 
+  id: ID! 
+  extraInfo: TrashExtraInfo!
+}
+
+type TrashExtraInfo @cacheControl(maxAge: 3600) {
+  id: ID! 
+  degrateTime: Float!
+    
+  degrateWay: String!
+  about: String!
+  category: String!
+}
+
+type HTMLType {
+  src: String! 
+  js: [String!]!
+  css: [String!]!
+}
+
+type TrashType @cacheControl(maxAge: 3600) {
+  id: ID! 
+  name: String! 
+}
+
+type ImagePosition {
+  width: Float 
+  height: Float 
+  top: Float 
+  left: Float 
 }
 
 type Mutation {
-  myMutation: String!
-  "Add a message and publish it on 'messages' subscription channel"
-  addMessage (input: MessageInput!): Message!
-  singleUpload (file: Upload!): File!
-  multipleUpload (files: [Upload!]!): [File!]!
-
+  # image is with base64 encoded
+  uploadImageByURL(imgURL: String): UploadImageResponse! @cacheControl(maxAge: 36000)
+  uploadImageByFile(imgFile: Upload!): UploadImageResponse! @cacheControl(maxAge: 36000)
+  uploadImage(imgFile: Upload!): FileType!
 }
 
-type Subscription {
-  mySub: String!
-  "This will update every 2 seconds"
-  counter: Counter!
-  "When a new message is added"
-  messageAdded: Message!
+type FileType {
+  filename: String
+  mimetype: String
+}
 
+type TaggedImageResult {
+  keyword: String 
+  score: Float 
+  root: String
+    
+}
+
+type UploadImageResponse @cacheControl(maxAge: 3600) {
+  taggedImageResult: [TaggedImageResult!]!
+  taggedImagePosition: ImagePosition!
+}
+
+type PropheticErrorExtensions {
+  code: String
+}
+
+type PropheticError {
+  name: String
+  message: String
+  extensions: PropheticErrorExtensions
+}
+
+type DailyArticle @cacheControl(maxAge: 3600) {
+  id: ID!
+  article: String! 
 }

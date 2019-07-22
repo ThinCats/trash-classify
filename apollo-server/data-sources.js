@@ -1,7 +1,7 @@
 import ImageClassifyAPI from './datasources/ImageClassify'
 import TrashAPI from './datasources/Trash'
 import ArticleAPI from './datasources/Article'
-import { db } from './utils/db_mock'
+import { db } from './utils/db'
 
 const imageClassifyAPI = new ImageClassifyAPI()
 const trashAPI = new TrashAPI({ db })

@@ -3,7 +3,7 @@ import path from 'path'
 
 const sequelize = new Sequelize.Sequelize({
   dialect: 'sqlite',
-  storage: path.resolve(__dirname, '../../live/db.sqlite')
+  storage: path.resolve(__dirname, '../live/db.sqlite')
 })
 
 sequelize

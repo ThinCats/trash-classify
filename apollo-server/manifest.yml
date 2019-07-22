@@ -1,0 +1,12 @@
+---
+applications:
+  - name: TracolBackend
+    random-route: true
+    memory: 256M
+    instance: 1
+    path: .
+    buildpack: nodejs_buildpack
+    host: tracol
+    command: node index.js --mode production
+    env:
+      env_type: production

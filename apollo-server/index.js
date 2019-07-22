@@ -2,7 +2,7 @@ const server = require('vue-cli-plugin-apollo/graphql-server')
 const BASE_DIR = './'
 
 const opts = {
-  host: 'localhost',
+  host: '',
   port: 4000,
   graphqlPath: '/graphql',
   subscriptionsPath: '/graphql',

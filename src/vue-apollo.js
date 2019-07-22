@@ -42,7 +42,7 @@ const defaultOptions = {
   link: ApolloLink.from([
     // ...
     createUploadLink({
-      uri: 'http://localhost:4000/graphql'
+      uri: httpEndpoint
     })
   ])
 
