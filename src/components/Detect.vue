@@ -147,7 +147,8 @@ export default class Detect extends Vue {
   private sendUploadingTips() {
     if (!this.isShownTips) {
       // only for small device
-      if (window.matchMedia('screen and (max-width: 380px)').matches) {
+      const sizeSm = '768px'
+      if (window.matchMedia(`screen and (max-width: ${sizeSm})`).matches) {
         // only show once
         this.isShownTips = true
         this.$notify({
@@ -227,7 +228,7 @@ $btn-size: 1.2rem;
       border-radius: 50%;
       margin-right: 0.8rem;
 
-      @media screen and (max-width: $size-xs) {
+      @media screen and (max-width: $size-sm) {
         width: 0.8rem;
         height: 0.8rem;
         // split from title

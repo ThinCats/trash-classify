@@ -113,6 +113,7 @@ $size-to-change: 450px;
 
     @media screen and (max-width: $size-to-change) {
       width: 5rem;
+      height: 5rem;
       margin-bottom: 0.5rem;
     }
 

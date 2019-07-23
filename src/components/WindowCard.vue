@@ -4,7 +4,7 @@
       <!-- if no title specified, no header render -->
       <div slot="header" class="card-header" v-if="title.length > 0">
         <!-- use to justify -->
-        <i :class="icon" style="color: transparent"></i>
+        <i class="hidden-xxs-only" :class="icon" style="color: transparent"></i>
         <h3>{{ title }}</h3>
         <i :class="icon"></i>
       </div>
