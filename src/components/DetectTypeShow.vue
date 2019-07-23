@@ -1,6 +1,9 @@
 <template>
   <div class="detect-type-show">
     <window-card title="All Types Of the Trash" icon="el-icon-delete">
+      <div class="gray-little-tips">
+        U can click the type icon to see more details
+      </div>
       <div class="type-images">
         <el-popover
           v-for="config in trashTypeConfigs"
@@ -84,14 +87,21 @@ export default class DetectTypeShow extends Vue {
 <style scoped lang="scss">
 .detect-type-show {
   margin-top: 1rem;
+  height: 100%;
   h3 {
     text-align: center;
   }
 }
 
+$size-to-change: 450px;
 .type-images {
   display: flex;
   justify-content: space-around;
+
+  @media screen and (max-width: $size-to-change) {
+    flex-wrap: wrap;
+  }
+
   & > span {
     display: flex;
     justify-content: center;
@@ -100,6 +110,11 @@ export default class DetectTypeShow extends Vue {
     width: 80%;
     border-radius: 1rem;
     transition: all 0.5s ease;
+
+    @media screen and (max-width: $size-to-change) {
+      width: 5rem;
+      margin-bottom: 0.5rem;
+    }
 
     &:hover {
       opacity: 0.8;

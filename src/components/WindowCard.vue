@@ -3,6 +3,8 @@
     <el-card :body-style="bodyStyle">
       <!-- if no title specified, no header render -->
       <div slot="header" class="card-header" v-if="title.length > 0">
+        <!-- use to justify -->
+        <i :class="icon" style="color: transparent"></i>
         <h3>{{ title }}</h3>
         <i :class="icon"></i>
       </div>
@@ -36,17 +38,19 @@ export default class WindowCard extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  flex-wrap: wrap;
 
   h3 {
     margin: 0;
     color: #008080;
+    text-align: center;
   }
 
   i {
-    position: absolute;
-    top: 0;
-    right: 0;
+    // position: absolute;
+    // top: 0;
+    // right: 0;
+    margin: auto;
     font-size: 1.5rem;
   }
 }
@@ -55,7 +59,7 @@ export default class WindowCard extends Vue {
 <style lang="scss">
 // to control the height from father container
 .window-card {
-  position: relative;
+  // position: relative;
   height: 100%;
   z-index: 2;
   & > .el-card {

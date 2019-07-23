@@ -55,6 +55,15 @@ $page-padding: 6%;
   justify-content: space-between;
   width: 80vw;
   margin: 0 auto;
+
+  @media screen and (max-width: $size-xs) {
+    justify-content: center;
+
+    .nav-head {
+      @include vue-hidden();
+    }
+  }
+
   .nav-head {
     display: flex;
     align-items: center;

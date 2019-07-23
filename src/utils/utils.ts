@@ -82,7 +82,6 @@ export function getScaledPosition(
   curPosition: PositionType,
   oriImageSize: ImageSize
 ) {
-  console.log(curImageSize)
   let scale: ScaleType = {
     width: curImageSize.width / oriImageSize.width,
     height: curImageSize.height / oriImageSize.height

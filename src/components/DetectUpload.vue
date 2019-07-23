@@ -2,11 +2,9 @@
   <div class="detect-upload">
     <el-form
       ref="trashImageForm"
-      :inline="true"
       :model="trashFormData"
       :rules="trashFormRules"
       :status-icon="true"
-      class="flex-col-center"
     >
       <el-form-item label="Image URL " style="display: flex" prop="imgURL">
         <el-input
@@ -14,7 +12,7 @@
           placeholder="your image url"
         ></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item label="| ">
         <el-button
           size="medium"
           type="danger"
@@ -22,9 +20,9 @@
           @click="submitTrashForm(trashFormData)"
           >Submit <i class="el-icon-upload"></i>
         </el-button>
-        <el-divider direction="vertical"></el-divider>
       </el-form-item>
-      <el-form-item label="or ">
+      <el-form-item label="| ">
+        <el-divider></el-divider>
         <el-upload
           ref="trashUpload"
           :show-file-list="false"
@@ -44,7 +42,8 @@
           </el-button>
         </el-upload>
       </el-form-item>
-      <el-form-item label=" | ">
+      <!-- disable when is small screen -->
+      <el-form-item label="| " class="hidden-sm-and-down">
         <detect-upload-webcam
           @captured-image="submitBase64Data"
         ></detect-upload-webcam>
@@ -306,6 +305,30 @@ export default class DetectUpload extends Vue {
 .detect-upload {
   .el-input__inner {
     background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  & > form.el-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    & > div.el-form-item {
+      margin-left: 0.5em;
+      // the content
+      & > div.el-form-item__content {
+        display: flex;
+        flex-direction: row;
+      }
+      // first child should not have label if screen is small
+      &:nth-child(1) {
+        & > label {
+          @media screen and (max-width: $size-sm) {
+            @include vue-hidden();
+          }
+        }
+      }
+    }
   }
 }
 </style>

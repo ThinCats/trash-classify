@@ -1,65 +1,60 @@
 <template>
   <div class="detect-info-item" :style="infoItemStyle">
-    <el-row type="flex" justify="space-between" align="middle">
-      <el-col class="flex-col-center" :span="4">
-        <el-popover
-          placement="top-start"
-          :title="trash.type.name"
-          width="200"
-          trigger="hover"
-          :content="trashConfig.tip"
-        >
-          <el-image
-            slot="reference"
-            :src="trashConfig.imgUrl"
-            fit="fill"
-            class="item-avator"
-          ></el-image>
-        </el-popover>
-      </el-col>
-      <el-col class="flex-col-center" :span="12">
-        <el-card
-          class="flex-vertical-align text-align-center info-item-text-card"
-          shadow="hover"
-        >
-          <el-popover placement="right" width="200" trigger="hover">
-            <article class="trash-intro">
-              <h3 style="text-align: center">{{ trash.name }}</h3>
-              <h4>Category</h4>
-              <p>{{ trash.extraInfo.category }}</p>
-              <el-divider></el-divider>
-              <h4>About</h4>
-              <p>
-                {{ trash.extraInfo.about }}
-              </p>
-              <el-divider></el-divider>
-              <h4>Degration</h4>
-              <p>It can be degrated by {{ trash.extraInfo.degrateWay }}</p>
-            </article>
-            <div slot="reference">
-              <div
-                class="card-trash-name"
-                :style="{ color: trashConfig.color }"
-              >
-                {{ trash.name }}
-              </div>
-              <div>is</div>
-              <em class="card-trash-type">{{ trash.type.name }} </em>
+    <div class="item-pic flex-col-center">
+      <el-popover
+        placement="top-start"
+        :title="trash.type.name"
+        width="200"
+        trigger="hover"
+        :content="trashConfig.tip"
+      >
+        <el-image
+          slot="reference"
+          :src="trashConfig.imgUrl"
+          fit="fill"
+          class="item-avator"
+        ></el-image>
+      </el-popover>
+    </div>
+    <div class="item-text flex-col-center">
+      <el-card
+        class="flex-vertical-align text-align-center info-item-text-card"
+        shadow="hover"
+      >
+        <el-popover placement="right" width="200" trigger="hover">
+          <article class="trash-intro">
+            <h3 style="text-align: center">{{ trash.name }}</h3>
+            <h4>Category</h4>
+            <p>{{ trash.extraInfo.category }}</p>
+            <el-divider></el-divider>
+            <h4>About</h4>
+            <p>
+              {{ trash.extraInfo.about }}
+            </p>
+            <el-divider></el-divider>
+            <h4>Degration</h4>
+            <p>It can be degrated by {{ trash.extraInfo.degrateWay }}</p>
+          </article>
+          <div slot="reference">
+            <div class="card-trash-name" :style="{ color: trashConfig.color }">
+              {{ trash.name }}
             </div>
-          </el-popover>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-progress
-          type="circle"
-          class="info-item-time-progress"
-          :percentage="timePercentage"
-          :format="timeFormat"
-          :color="timePercentageColors"
-          :width="100"
-        ></el-progress>
-      </el-col>
-    </el-row>
+            <div>is</div>
+            <em class="card-trash-type">{{ trash.type.name }} </em>
+          </div>
+        </el-popover>
+      </el-card>
+    </div>
+    <div class="item-progress">
+      <el-progress
+        type="circle"
+        class="info-item-time-progress"
+        :percentage="timePercentage"
+        :format="timeFormat"
+        :color="timePercentageColors"
+        :width="100"
+      ></el-progress>
+    </div>
   </div>
 </template>
 
@@ -208,6 +203,27 @@ export default class DetectInfoItem extends Vue {
   border: 3px solid;
   border-radius: 2rem;
 
+  display: flex;
+  justify-content: space-around;
+  // flex-wrap: wrap;
+  align-items: center;
+
+  @media screen and (max-width: $size-xs) {
+    flex-wrap: wrap;
+  }
+
+  .item-pic {
+    flex-basis: 1;
+  }
+
+  .item-text {
+    flex-basis: 2;
+  }
+
+  .item-progress {
+    flex-basis: 1;
+  }
+
   .see-more {
     font-style: italic;
   }
@@ -225,8 +241,10 @@ export default class DetectInfoItem extends Vue {
   }
 
   .item-avator {
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
+    max-width: 5rem;
+    min-width: 4rem;
     border-radius: 1rem;
     // border-radius: 50%;
   }
@@ -234,11 +252,18 @@ export default class DetectInfoItem extends Vue {
 </style>
 
 <style lang="scss">
-.info-item-time-progress.el-progress--circle {
-  & > .el-progress__text {
-    font-size: 0.6rem;
-    width: 80%;
-    padding: 0.625rem;
+$max-progress-size: 480px;
+.info-item-time-progress {
+  &.el-progress--circle {
+    & > .el-progress__text {
+      font-size: 0.6rem;
+      width: 80%;
+      padding: 0.625rem;
+    }
+  }
+
+  @media screen and (max-width: $max-progress-size) {
+    @include vue-hidden();
   }
 }
 
