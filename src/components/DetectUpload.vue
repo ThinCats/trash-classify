@@ -159,7 +159,7 @@ export default class DetectUpload extends Vue {
   )
   private _uploadByFile(image: File) {
     this.compressImage(image)
-      .then(img => {
+      .then(image => {
         return this.$apollo.mutate({
           mutation: require('@/graphql/uploadImageByFile.gql'),
           variables: {
