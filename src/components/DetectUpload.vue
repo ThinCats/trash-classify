@@ -28,7 +28,7 @@
           :show-file-list="false"
           action="#"
           :limit="1"
-          accept="image/png,image/jpg,image/jpeg"
+          accept="image/*"
           :before-upload="beforeUpload"
           :on-exceed="handleFileExceed"
           :on-success="handleFileSuccess"
@@ -69,6 +69,7 @@ import { ElForm } from 'element-ui/types/form'
 import DetectUploadWebcam from '@/components/DetectUploadWebcam.vue'
 
 import * as utils from '@/utils/utils'
+import Compressor from 'compressorjs'
 
 interface TrashFormData {
   imgURL: string
@@ -152,10 +153,14 @@ export default class DetectUpload extends Vue {
   /**
    * @param {File} image - graphql's param, if set imgURL, file should be null
    */
-  private uploadByFile(image: File) {
-    this.$_.debounce(() => {
-      this.$apollo
-        .mutate({
+  private uploadByFile = this.$_.debounce(
+    (image: File) => this._uploadByFile(image),
+    1000
+  )
+  private _uploadByFile(image: File) {
+    this.compressImage(image)
+      .then(img => {
+        return this.$apollo.mutate({
           mutation: require('@/graphql/uploadImageByFile.gql'),
           variables: {
             image
@@ -164,11 +169,32 @@ export default class DetectUpload extends Vue {
             hasUpload: true
           }
         })
-        .then((response: any) => {
-          this.handleRecieveUploadResponse(response.data.uploadImageByFile)
-        })
-        .catch(this.handleApolloError)
-    }, 1000)()
+      })
+      .then((response: any) => {
+        this.handleRecieveUploadResponse(response.data.uploadImageByFile)
+      })
+      .catch(this.handleApolloError)
+  }
+
+  private compressImage(image: File) {
+    return new Promise((resolve, reject) => {
+      new Compressor(image, {
+        quality: 0.8,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        mimeType: 'image/jpeg',
+        checkOrientation: false,
+        success(result) {
+          resolve(result)
+        },
+        error(err) {
+          reject(err)
+        }
+      })
+    }).catch(err => {
+      console.log(err)
+      throw err
+    })
   }
 
   /**
@@ -180,20 +206,24 @@ export default class DetectUpload extends Vue {
   /**
    * @param {imgURL} imgURL - imgURL to send
    */
-  private uploadByURL(imgURL: string) {
-    this.$_.debounce(() => {
-      this.$apollo
-        .mutate({
-          mutation: require('@/graphql/uploadImageByURL.gql'),
-          variables: {
-            imgURL
-          }
-        })
-        .then((response: any) => {
-          this.handleRecieveUploadResponse(response.data.uploadImageByURL)
-        })
-        .catch(this.handleApolloError)
-    }, 1000)()
+
+  private uploadByURL = this.$_.debounce(
+    imgURL => this._uploadByURL(imgURL),
+    1000
+  )
+
+  private _uploadByURL(imgURL: string) {
+    this.$apollo
+      .mutate({
+        mutation: require('@/graphql/uploadImageByURL.gql'),
+        variables: {
+          imgURL
+        }
+      })
+      .then((response: any) => {
+        this.handleRecieveUploadResponse(response.data.uploadImageByURL)
+      })
+      .catch(this.handleApolloError)
   }
 
   // form submit
@@ -221,7 +251,14 @@ export default class DetectUpload extends Vue {
     this.setCurImageURL(imgBase64URL)
     this.handleUploadNewImage(imgBase64URL)
     utils.base64ToBlob(imgBase64URL).then(blob => {
-      let file = new File([blob], 'spanshot.jpg', { lastModified: Date.now() })
+      // let file = new File([blob], 'spanshot.jpg', { lastModified: Date.now() })
+      // !! Warning: no hardcoded here
+      let type = 'image/png'
+      if (blob.type && blob.type.startsWith('image')) {
+        type = blob.type
+      }
+      let file = utils.blobToFile(blob, type)
+      // change file type
       this.uploadByFile(file)
     })
   }

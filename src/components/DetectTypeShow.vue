@@ -108,6 +108,7 @@ $size-to-change: 450px;
   }
   img {
     width: 80%;
+    height: 100%;
     border-radius: 1rem;
     transition: all 0.5s ease;
 

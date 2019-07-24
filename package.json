@@ -29,6 +29,7 @@
     "apollo-link": "^1.2.12",
     "apollo-upload-client": "^11.0.0",
     "await-to-js": "^2.1.1",
+    "compressorjs": "^1.0.5",
     "core-js": "^2.6.5",
     "cross-env": "^5.2.0",
     "echarts": "^4.2.1",

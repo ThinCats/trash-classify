@@ -23,6 +23,12 @@ export async function urlToBlob(url: string): Promise<Blob> {
   return response.blob()
 }
 
+export function blobToFile(blob: Blob, type: string) {
+  //@ts-ignore
+  let filename = blob.name || 'file.jpg'
+  return new File([blob], filename, { lastModified: Date.now(), type })
+}
+
 export interface ImageSize {
   width: number
   height: number
