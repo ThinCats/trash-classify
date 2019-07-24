@@ -158,17 +158,15 @@ export default class DetectUpload extends Vue {
     1000
   )
   private _uploadByFile(image: File) {
-    this.compressImage(image)
-      .then(image => {
-        return this.$apollo.mutate({
-          mutation: require('@/graphql/uploadImageByFile.gql'),
-          variables: {
-            image
-          },
-          context: {
-            hasUpload: true
-          }
-        })
+    return this.$apollo
+      .mutate({
+        mutation: require('@/graphql/uploadImageByFile.gql'),
+        variables: {
+          image
+        },
+        context: {
+          hasUpload: true
+        }
       })
       .then((response: any) => {
         this.handleRecieveUploadResponse(response.data.uploadImageByFile)
@@ -176,7 +174,8 @@ export default class DetectUpload extends Vue {
       .catch(this.handleApolloError)
   }
 
-  private compressImage(image: File) {
+  private async compressImage(image: File): Promise<File> {
+    //@ts-ignore
     return new Promise((resolve, reject) => {
       new Compressor(image, {
         quality: 0.8,
@@ -250,17 +249,19 @@ export default class DetectUpload extends Vue {
     this.setUploading()
     this.setCurImageURL(imgBase64URL)
     this.handleUploadNewImage(imgBase64URL)
-    utils.base64ToBlob(imgBase64URL).then(blob => {
-      // let file = new File([blob], 'spanshot.jpg', { lastModified: Date.now() })
-      // !! Warning: no hardcoded here
-      let type = 'image/png'
-      if (blob.type && blob.type.startsWith('image')) {
-        type = blob.type
-      }
-      let file = utils.blobToFile(blob, type)
-      // change file type
-      this.uploadByFile(file)
-    })
+    utils
+      .base64ToBlob(imgBase64URL)
+      .then(blob => {
+        // let file = new File([blob], 'spanshot.jpg', { lastModified: Date.now() })
+        // !! Warning: no hardcoded here
+        let type = 'image/jpeg'
+        if (blob.type && blob.type.startsWith('image')) {
+          type = blob.type
+        }
+        return utils.blobToFile(blob, type)
+      })
+      .then(this.compressImage)
+      .then(this.uploadByFile)
   }
 
   private submitByImgURL(imgURL: string) {
@@ -308,10 +309,13 @@ export default class DetectUpload extends Vue {
   }
 
   private beforeUpload(file: ElUploadInternalRawFile) {
-    let imgURL = URL.createObjectURL(file)
-    this.setUploading()
-    this.setCurImageURL(imgURL)
-    this.handleUploadNewImage(imgURL)
+    this.compressImage(file).then(image => {
+      let imgURL = URL.createObjectURL(file)
+      this.setUploading()
+      this.setCurImageURL(imgURL)
+      this.handleUploadNewImage(imgURL)
+    })
+
     return true
   }
 
