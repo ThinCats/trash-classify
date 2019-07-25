@@ -15,8 +15,13 @@ Vue.use(VueApollo)
 const AUTH_TOKEN = 'apollo-token'
 
 // Http endpoint
-const httpEndpoint =
+let httpEndpoint =
   process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql'
+
+if (process.env.NODE_ENV === 'production') {
+  // use in production
+  httpEndpoint = '/api/graphql'
+}
 
 // Config
 const defaultOptions = {

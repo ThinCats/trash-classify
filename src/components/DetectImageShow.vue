@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="detect-image-show">
     <window-card>
       <img
         :src="imageSrc"

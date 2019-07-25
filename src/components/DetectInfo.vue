@@ -3,7 +3,7 @@
     <!-- <div class="tagged-card-head"></div> -->
     <div class="trash-info-list">
       <window-card title="The List Of the Trash" icon="el-icon-magic-stick">
-        <div class="see-more">
+        <div class="gray-little-tips">
           U can hover on the trash card to see more details
         </div>
         <div class="info-list-card-body">
@@ -113,8 +113,10 @@ export default class TrashDetectInfo extends Vue {
   }
 
   private handleRecieveResult(result: any) {
-    this.curPage = 1
-    this.trashList = result.data.trashList
+    if (result.data && result.data.trashList) {
+      this.curPage = 1
+      this.trashList = result.data.trashList
+    }
   }
 
   private trashRate: number = 0
@@ -147,13 +149,6 @@ export default class TrashDetectInfo extends Vue {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-
-  .see-more {
-    margin-bottom: 1rem;
-    text-align: center;
-    font-style: italic;
-    color: #bbb;
-  }
 
   .detect-info-foot {
     width: 100%;

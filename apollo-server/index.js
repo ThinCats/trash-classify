@@ -2,7 +2,7 @@ const server = require('vue-cli-plugin-apollo/graphql-server')
 const BASE_DIR = './'
 
 const opts = {
-  host: '',
+  host: process.env.SERVER_GRAPHQL_HOST || '0.0.0.0',
   port: 4000,
   graphqlPath: '/graphql',
   subscriptionsPath: '/graphql',
@@ -10,7 +10,7 @@ const opts = {
   enableEngine: false,
   cors: '*',
   timeout: 1000000,
-  quiet: true,
+  quiet: false,
   paths: {
     typeDefs: require.resolve(`${BASE_DIR}/type-defs.js`),
     resolvers: require.resolve(`${BASE_DIR}/resolvers.js`),

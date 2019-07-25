@@ -4,7 +4,7 @@
       title="Play With Demo Pictures"
       icon="el-icon-shopping-cart-full"
     >
-      <el-carousel :interval="8000" height="200px" type="card" trigger="click">
+      <el-carousel :interval="8000" height="140px" type="card" trigger="click">
         <el-carousel-item v-for="demoImg in demoImgList" :key="demoImg.id">
           <div class="clickable brighten" @click="handleSelected(demoImg.url)">
             <el-image
@@ -35,24 +35,28 @@ export default class DetectDemoSelect extends Vue {
     {
       id: 1,
       // url: 'http://www.runoob.com/wp-content/uploads/2016/04/img_fjords.jpg'
-      url: 'http://usa.eastday.com/uploads/month_1406/20140601085253916.jpg'
+      // url: 'http://usa.eastday.com/uploads/month_1406/20140601085253916.jpg'
+      url: 'https://i.loli.net/2019/07/23/5d36ab1cd8b6521500.jpg'
     },
     {
       id: 2,
       // url: 'http://www.runoob.com/wp-content/uploads/2016/04/img_forest.jpg'
-      url:
-        'http://5b0988e595225.cdn.sohucs.com/images/20180625/b9bfb95b5e26416eab74c43f3f4dec07.jpeg'
+      // url:
+      // 'http://5b0988e595225.cdn.sohucs.com/images/20180625/b9bfb95b5e26416eab74c43f3f4dec07.jpeg'
+      url: 'https://i.loli.net/2019/07/23/5d36ab1cd8d4771125.jpg'
     },
     {
       id: 3,
-      url:
-        'https://www.jesmondfruitbarn.com.au/wp-content/uploads/2016/10/Jesmond-Fruit-Barn-Red-Delicious-Apples.jpg'
+      // url:
+      // 'https://www.jesmondfruitbarn.com.au/wp-content/uploads/2016/10/Jesmond-Fruit-Barn-Red-Delicious-Apples.jpg'
+      url: 'https://i.loli.net/2019/07/23/5d36ab1cd913038840.jpg'
     },
     {
       id: 4,
       // url: 'http://www.runoob.com/wp-content/uploads/2016/04/img_mountains.jpg'
-      url:
-        'http://cms-bucket.nosdn.127.net/27a66e2d26474a56b29dd1ace2ad41be20180209192255.jpeg'
+      // url:
+      // 'http://cms-bucket.nosdn.127.net/27a66e2d26474a56b29dd1ace2ad41be20180209192255.jpeg'
+      url: 'https://i.loli.net/2019/07/23/5d36ab1cda44329582.jpg'
     }
   ]
 

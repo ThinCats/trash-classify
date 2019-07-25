@@ -1,6 +1,18 @@
 $logo-primary-color: #008080;
 $background-color-base: #46c3ac;
 
+// in min width
+$size-xxs: 0px;
+$size-xs: 380px;
+$size-sm: 768px;
+$size-md: 992px;
+$size-lg: 1200px;
+$size-xl: 1920px;
+
+.margin-center {
+  margin: 0 auto;
+}
+
 .flex-col-center {
   display: flex;
   justify-content: center;
@@ -24,4 +36,21 @@ $background-color-base: #46c3ac;
   padding-top: 1rem;
   // border-top: 1px solid #dcdfe6;
   margin-top: 0.5rem;
+}
+
+@mixin vue-hidden {
+  display: none !important;
+}
+
+.hidden-xxs-only {
+  @media screen and (max-width: $size-xs) {
+    @include vue-hidden();
+  }
+}
+
+.gray-little-tips {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-style: italic;
+  color: #bbb;
 }

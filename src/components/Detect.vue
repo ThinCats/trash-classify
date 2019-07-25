@@ -14,14 +14,15 @@
           <div class="window-title">
             <h1>Trash Classification Of Life</h1>
           </div>
+          <div class="window-bar-right"></div>
         </div>
       </div>
       <detect-upload
         @upload-new-image="handleUploadNewImage"
         @recieve-upload-response="handleReciveUploadResponse"
       ></detect-upload>
-      <el-row :gutter="20" type="flex" justify="space-between">
-        <el-col class="col-center" :lg="12" :md="24" :xs="24">
+      <el-row :gutter="20">
+        <el-col class="col-center" :xl="12" :lg="12" :md="12" :sm="12" :xs="24">
           <div class="image-compare">
             <div class="compare-head">
               <detect-image-tagged
@@ -43,13 +44,34 @@
             </div>
           </div>
         </el-col>
-        <el-col class="flex-col-center" :lg="12" :md="24" :xs="24">
+        <el-col
+          v-if="isUploading || isUploaded || !showDailyArticle"
+          class="margin-center"
+          :xl="12"
+          :lg="12"
+          :md="12"
+          :sm="12"
+          :xs="24"
+        >
+          <div class="hidden-sm-and-up">
+            <el-divider></el-divider>
+          </div>
           <detect-info
-            v-if="isUploading || isUploaded || !showDailyArticle"
             v-loading="isUploading"
             :detectedObjectList="taggedImageResult"
           ></detect-info>
-          <article-daily v-else></article-daily>
+        </el-col>
+        <!-- hiden when screen size is too small -->
+        <el-col
+          v-else
+          class="flex-col-center hidden-xs-only"
+          :xl="12"
+          :lg="12"
+          :md="12"
+          :sm="12"
+          :xs="24"
+        >
+          <article-daily></article-daily>
         </el-col>
       </el-row>
     </el-card>
@@ -92,6 +114,9 @@ export default class Detect extends Vue {
   // current showing image, url
   private curShowImage: string = ''
 
+  // is the uploadingTips show?
+  private isShownTips: boolean = false
+
   // the main object position
   private taggedImagePosition: ImagePosition = {
     width: 0,
@@ -115,6 +140,26 @@ export default class Detect extends Vue {
     this.showDailyArticle = false
     this.isUploaded = true
     this.isUploading = false
+    // send tips for use on how to see result
+    this.sendUploadingTips()
+  }
+
+  private sendUploadingTips() {
+    if (!this.isShownTips) {
+      // only for small device
+      const sizeSm = '768px'
+      if (window.matchMedia(`screen and (max-width: ${sizeSm})`).matches) {
+        // only show once
+        this.isShownTips = true
+        this.$notify({
+          title: 'Tips',
+          type: 'success',
+          message:
+            'You can slide your screen down to see the results, just after the demo pictures :)',
+          duration: 0
+        })
+      }
+    }
   }
 }
 </script>
@@ -131,12 +176,31 @@ export default class Detect extends Vue {
   .compare-head {
     flex-grow: 1;
   }
+
+  .compare-middle {
+    flex-grow: 1;
+  }
 }
 
 .trash-detect {
   width: 80vw;
   margin: 0 auto;
   margin-top: 2rem;
+
+  @media screen and (min-width: $size-md) {
+    width: 80vw;
+  }
+
+  @media screen and (min-width: $size-lg) {
+    width: 70vw;
+  }
+
+  @media screen and (min-width: $size-xl) {
+    width: 65vw;
+  }
+  @media screen and (max-width: $size-md) {
+    width: 95vw;
+  }
 }
 
 .title {
@@ -150,16 +214,26 @@ $btn-size: 1.2rem;
     font-size: $btn-size;
     margin: 0;
   }
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
   padding: 0 0.4rem;
   .window-buttons {
-    position: absolute;
     display: flex;
+    margin-right: auto;
     .window-btn {
       width: $btn-size;
       height: $btn-size;
       border-radius: 50%;
       margin-right: 0.8rem;
+
+      @media screen and (max-width: $size-sm) {
+        width: 0.8rem;
+        height: 0.8rem;
+        // split from title
+        margin-bottom: 0.4rem;
+      }
 
       &:nth-child(1) {
         background-color: #f46067;
@@ -171,6 +245,15 @@ $btn-size: 1.2rem;
         background-color: #35c24b;
       }
     }
+  }
+
+  .window-title {
+    text-align: center;
+  }
+
+  .window-bar-right {
+    width: 96px;
+    margin-left: auto;
   }
 }
 </style>
