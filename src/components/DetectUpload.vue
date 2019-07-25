@@ -158,15 +158,17 @@ export default class DetectUpload extends Vue {
     1000
   )
   private _uploadByFile(image: File) {
-    return this.$apollo
-      .mutate({
-        mutation: require('@/graphql/uploadImageByFile.gql'),
-        variables: {
-          image
-        },
-        context: {
-          hasUpload: true
-        }
+    return this.compressImage(image)
+      .then(image => {
+        return this.$apollo.mutate({
+          mutation: require('@/graphql/uploadImageByFile.gql'),
+          variables: {
+            image
+          },
+          context: {
+            hasUpload: true
+          }
+        })
       })
       .then((response: any) => {
         this.handleRecieveUploadResponse(response.data.uploadImageByFile)
@@ -310,7 +312,7 @@ export default class DetectUpload extends Vue {
 
   private beforeUpload(file: ElUploadInternalRawFile) {
     this.compressImage(file).then(image => {
-      let imgURL = URL.createObjectURL(file)
+      let imgURL = URL.createObjectURL(image)
       this.setUploading()
       this.setCurImageURL(imgURL)
       this.handleUploadNewImage(imgURL)
