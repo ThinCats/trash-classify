@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img style="width: 80px" src="./src/assets/logo.svg">
+  <img width="80px" src="./src/assets/logo.svg">
   <br/>
   Tracol
 </h1>
@@ -29,17 +29,17 @@
 It can also run well in mobile devices
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/32454250/62151137-3aef2a80-b332-11e9-8c1c-23a93c0eb29a.gif" alt="mobile-demo" width="200">
+<img src="https://user-images.githubusercontent.com/32454250/62151137-3aef2a80-b332-11e9-8c1c-23a93c0eb29a.gif" alt="mobile-demo" width="300">
 </p>
 
 ## Design
 <p align="center">
-<img src="https://user-images.githubusercontent.com/32454250/62187274-69552000-b39b-11e9-89d6-74f67766c0f4.png" alt="tracol-design" width="400">
+<img src="https://user-images.githubusercontent.com/32454250/62187274-69552000-b39b-11e9-89d6-74f67766c0f4.png" alt="tracol-design" width="500">
 </p>
 
 The API Server is provided by Baidu AI, which has 500 daily limits (Free Account).
 
-### Structure
+## Structure
 ```
 .
 ├── apollo-server // The Backend for frontend, use apollo-graphql server
@@ -62,10 +62,10 @@ The API Server is provided by Baidu AI, which has 500 daily limits (Free Account
 └── utils // Some helper function
 ```
 
-### Stack
+## Stack
 We use Vuejs, Graphql and Apollo to develop our web application.
 
-### Usage in Client
+## Usage in Client
 If you want to run the frontend
 ```
 yarn install
@@ -79,7 +79,7 @@ yarn run build
 
 You can modify the apollo.config.js to fit your backend server
 
-### Usage in Server
+## Usage in Server
 Step in directory [apollo-server](./apollo-server), and install then deps
 ```
 yarn install
@@ -94,15 +94,15 @@ You can run the server now
 node index.js
 ```
 
-### Dockerfile
+## Dockerfile
 If you prefer to use them in docker, you can find the dockerfile in both frontend and backend. We've tested in our own VPS.
 The CI is provided by [DaoCloud](https://www.daocloud.io/)
 
 To specify a diffrent port, or enable websocket, you can modify the config in [index.js](./apollo-server/index.js)
 
-### Refer
+## Refer
 - [Vue.js](https://vuejs.org/)
 - [Graphql](https://graphql.org/)
 
-### Limitations
+## Limitations
 As I am a newbie in frontend development, there are many places where the code does not conform to the development specification. Most importantly, there is **no test**.
