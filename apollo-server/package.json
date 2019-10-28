@@ -9,7 +9,7 @@
   "dependencies": {
     "apollo-datasource-rest": "^0.6.0",
     "lru-cache": "^5.1.1",
-    "sequelize": "^5.10.1",
+    "sequelize": "^5.15.1",
     "sqlite3": "^4.0.9",
     "vue-cli-plugin-apollo": "^0.21.0"
   },
